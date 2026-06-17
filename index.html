@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spencer Hicks — Painter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:     #1a1714;
+      --warm:    #f7f4ef;
+      --mid:     #e8e3da;
+      --muted:   #8a8278;
+      --rule:    #c9c3b8;
+      --accent:  #7a3e2a;
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--warm);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 1.5rem 3rem;
+      background: var(--warm);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .nav-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.25rem;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    /* MAIN LAYOUT */
+    main { padding-top: 5rem; }
+
+    section {
+      padding: 5rem 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    section + section {
+      border-top: 1px solid var(--rule);
+    }
+
+    /* HERO */
+    #work h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.25rem;
+    }
+
+    #work h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .work-intro {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 3.5rem;
+    }
+
+    /* PAINTING GRID */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .painting {
+      cursor: pointer;
+    }
+
+    .painting-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: var(--mid);
+      overflow: hidden;
+      margin-bottom: 0.85rem;
+      position: relative;
+    }
+
+    .painting-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .painting:hover .painting-img img { transform: scale(1.02); }
+
+    .painting-img .placeholder-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .painting-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      font-weight: 400;
+      margin-bottom: 0.2rem;
+    }
+
+    .painting-meta {
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      margin-bottom: 0.4rem;
+    }
+
+    .painting-price {
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+    }
+
+    .status-available { color: var(--accent); }
+    .status-sold { color: var(--muted); text-decoration: line-through; }
+
+    .inquire-btn {
+      display: inline-block;
+      margin-top: 0.6rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink);
+      border-bottom: 1px solid var(--ink);
+      text-decoration: none;
+      padding-bottom: 0.1rem;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .inquire-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* ABOUT */
+    #about {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .about-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .about-bio {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--ink);
+    }
+
+    .about-bio p + p { margin-top: 1.2rem; }
+
+    /* EXHIBITIONS */
+    .exhibitions-list {
+      list-style: none;
+    }
+
+    .exhibitions-list li {
+      display: grid;
+      grid-template-columns: 3rem 1fr;
+      gap: 1rem;
+      padding: 1.1rem 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: baseline;
+    }
+
+    .exhibitions-list li:first-child { border-top: 1px solid var(--rule); }
+
+    .ex-year {
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      padding-top: 0.1rem;
+    }
+
+    .ex-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+
+    .ex-venue {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* CONTACT */
+    #contact {
+      text-align: center;
+      padding-top: 5rem;
+      padding-bottom: 6rem;
+    }
+
+    #contact h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      margin-bottom: 1rem;
+    }
+
+    #contact p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      margin-bottom: 2rem;
+    }
+
+    .contact-email {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 0.15rem;
+      transition: color 0.2s;
+    }
+
+    .contact-email:hover { color: var(--accent); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    footer a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--ink); }
+
+    /* LIGHTBOX */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(26,23,20,0.92);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox-inner {
+      max-width: 800px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    .lightbox-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: #2a2520;
+      overflow: hidden;
+    }
+
+    .lightbox-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .lightbox-img .placeholder-text {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #5a5550;
+    }
+
+    .lightbox-info { color: var(--warm); }
+
+    .lightbox-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.6rem;
+      font-weight: 300;
+      margin-bottom: 0.5rem;
+    }
+
+    .lightbox-meta {
+      font-size: 0.72rem;
+      color: #9a9490;
+      letter-spacing: 0.04em;
+      margin-bottom: 1.5rem;
+      line-height: 1.8;
+    }
+
+    .lightbox-price {
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      margin-bottom: 1.5rem;
+    }
+
+    .lightbox-inquire {
+      display: inline-block;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--warm);
+      border-bottom: 1px solid var(--warm);
+      text-decoration: none;
+      padding-bottom: 0.1rem;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .lightbox-inquire:hover { color: #c8a898; border-color: #c8a898; }
+
+    .lightbox-close {
+      position: fixed;
+      top: 1.5rem;
+      right: 2rem;
+      background: none;
+      border: none;
+      color: #9a9490;
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    .lightbox-close:hover { color: var(--warm); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 1.25rem 1.5rem; }
+      .nav-links { gap: 1.5rem; }
+      section { padding: 3.5rem 1.5rem; }
+      #about { grid-template-columns: 1fr; gap: 2.5rem; }
+      .lightbox-inner { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      .nav-name { font-size: 1rem; }
+      .nav-links { gap: 1rem; }
+      .nav-links a { font-size: 0.62rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#work" class="nav-name">Spencer Hicks</a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#exhibitions">Exhibitions</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- WORK -->
+  <section id="work">
+    <p class="work-intro">Available Work</p>
+    <h1>Spencer<br><em>Hicks</em></h1>
+    <p class="work-intro" style="margin-top:1rem; margin-bottom:3.5rem;">Oakland, California</p>
+
+    <div class="grid" id="painting-grid">
+      <!-- Paintings injected by JS -->
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div>
+      <p class="about-label">About</p>
+      <div class="about-bio">
+        <p>Spencer Hicks is an Oakland-based painter. He holds a BA in literature and cinema from San Francisco State University and began painting seriously in 2018, studying privately with Bay Area urban landscape painter Anthony Holdsworth. In 2025 he completed a two-month residency at the Mt. Gretna School of Art in Pennsylvania. He works as a film projectionist and AV technician at SFMOMA.</p>
+      </div>
+    </div>
+    <div>
+      <p class="about-label">Exhibitions</p>
+      <ul class="exhibitions-list" id="exhibitions-list">
+        <!-- injected by JS -->
+      </ul>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <h2>Inquiries</h2>
+    <p>For purchases, pricing, and studio visits</p>
+    <a href="mailto:spehicks@gmail.com" class="contact-email">spehicks@gmail.com</a>
+  </section>
+
+</main>
+
+<footer>
+  <span>© 2026 Spencer Hicks</span>
+  <a href="https://www.instagram.com" target="_blank" rel="noopener">Instagram</a>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Close">✕</button>
+  <div class="lightbox-inner">
+    <div class="lightbox-img" id="lightbox-img"></div>
+    <div class="lightbox-info">
+      <div class="lightbox-title" id="lightbox-title"></div>
+      <div class="lightbox-meta" id="lightbox-meta"></div>
+      <div class="lightbox-price" id="lightbox-price"></div>
+      <a href="" class="lightbox-inquire" id="lightbox-inquire">Inquire</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ─── PAINTING DATA ───────────────────────────────────────────────
+  // To add a painting:
+  //   1. Add an entry to this array
+  //   2. Place the image file in the images/ folder
+  //   3. Set "image" to the filename, e.g. "the-flop.jpg"
+  //   4. Set available: true or false
+  //   5. Set price to the number (e.g. 4800) or null to hide price
+
+  const paintings = [
+    {
+      title: "The Flop",
+      year: 2026,
+      medium: "Oil on canvas",
+      dimensions: '60 × 75"',
+      image: IMG_0804.jpg,
+      available: true,
+      price: $5500
+    },
+{
+      title: "The Flop",
+      year: 2026,
+      medium: "Oil on canvas",
+      dimensions: '60 × 75"',
+      image: IMG_0804.jpg, // replace with "the-flop.jpg" once you add the file
+      available: true,
+      price: $5500  // set your price here, e.g. 12000
+    },
+    // Add more paintings below this line, following the same format:
+    // {
+    //   title: "Title Here",
+    //   year: 2026,
+    //   medium: "Oil on cradled birch panel",
+    //   dimensions: '24 × 30"',
+    //   image: "filename.jpg",
+    //   available: true,
+    //   price: 2400
+    // },
+  ];
+
+  // ─── EXHIBITIONS ─────────────────────────────────────────────────
+  const exhibitions = [
+    {
+      year: 2026,
+      title: "Winning and Losing",
+      venue: "Formerly Land and Sea Gallery, Oakland"
+    },
+    {
+      year: 2019,
+      title: "Ghiradelli Squares",
+      venue: "In My Area, Oakland"
+    },
+    {
+      year: 2018,
+      title: "The Last Hurrah",
+      venue: "Goodnight Projects, Oakland"
+    }
+  ];
+
+  // ─── RENDER PAINTINGS ────────────────────────────────────────────
+  const grid = document.getElementById('painting-grid');
+
+  paintings.forEach((p, i) => {
+    const el = document.createElement('div');
+    el.className = 'painting';
+    el.setAttribute('data-index', i);
+
+    const imgHTML = p.image
+      ? `<img src="images/${p.image}" alt="${p.title}" loading="lazy" />`
+      : `<div class="placeholder-text">Image coming soon</div>`;
+
+    const priceHTML = p.price
+      ? `<div class="painting-price ${p.available ? 'status-available' : 'status-sold'}">
+           ${p.available ? '$' + p.price.toLocaleString() : 'Sold'}
+         </div>`
+      : p.available
+        ? `<div class="painting-price status-available">Price on request</div>`
+        : `<div class="painting-price status-sold">Sold</div>`;
+
+    const inquireHTML = p.available
+      ? `<a href="mailto:spehicks@gmail.com?subject=Inquiry: ${encodeURIComponent(p.title)}" class="inquire-btn">Inquire</a>`
+      : '';
+
+    el.innerHTML = `
+      <div class="painting-img">${imgHTML}</div>
+      <div class="painting-title">${p.title}</div>
+      <div class="painting-meta">${p.year} &nbsp;·&nbsp; ${p.medium} &nbsp;·&nbsp; ${p.dimensions}</div>
+      ${priceHTML}
+      ${inquireHTML}
+    `;
+
+    el.querySelector('.painting-img').addEventListener('click', () => openLightbox(i));
+    grid.appendChild(el);
+  });
+
+  // ─── RENDER EXHIBITIONS ──────────────────────────────────────────
+  const exList = document.getElementById('exhibitions-list');
+
+  exhibitions.forEach(ex => {
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <span class="ex-year">${ex.year}</span>
+      <div>
+        <span class="ex-title">${ex.title}</span>
+        <span class="ex-venue">${ex.venue}</span>
+      </div>
+    `;
+    exList.appendChild(li);
+  });
+
+  // ─── LIGHTBOX ────────────────────────────────────────────────────
+  const lightbox = document.getElementById('lightbox');
+  const lbImg    = document.getElementById('lightbox-img');
+  const lbTitle  = document.getElementById('lightbox-title');
+  const lbMeta   = document.getElementById('lightbox-meta');
+  const lbPrice  = document.getElementById('lightbox-price');
+  const lbInquire= document.getElementById('lightbox-inquire');
+
+  function openLightbox(i) {
+    const p = paintings[i];
+    lbImg.innerHTML = p.image
+      ? `<img src="images/${p.image}" alt="${p.title}" />`
+      : `<div class="placeholder-text">Image coming soon</div>`;
+    lbTitle.textContent = p.title;
+    lbMeta.innerHTML = `${p.year}<br>${p.medium}<br>${p.dimensions}`;
+    lbPrice.textContent = p.price
+      ? (p.available ? '$' + p.price.toLocaleString() : 'Sold')
+      : (p.available ? 'Price on request' : 'Sold');
+    lbPrice.className = 'lightbox-price ' + (p.available ? 'status-available' : 'status-sold');
+    lbInquire.href = `mailto:spehicks@gmail.com?subject=Inquiry: ${encodeURIComponent(p.title)}`;
+    lbInquire.style.display = p.available ? 'inline-block' : 'none';
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+</script>
+
+</body>
+</html>
