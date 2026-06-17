@@ -21,6 +21,8 @@
       --accent:#7a3e2a;
     }
 
+    html { scroll-behavior: smooth; }
+
     body {
       background: var(--warm);
       color: var(--ink);
@@ -29,15 +31,17 @@
       line-height: 1.6;
     }
 
+    /* NAV */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
+      z-index: 100;
       display:flex;
       justify-content:space-between;
+      align-items:baseline;
       padding:1.5rem 3rem;
       background: var(--warm);
       border-bottom:1px solid var(--rule);
-      z-index:100;
     }
 
     .nav-name {
@@ -49,45 +53,57 @@
 
     .nav-links {
       display:flex;
-      gap:2rem;
+      gap:2.5rem;
       list-style:none;
     }
 
     .nav-links a {
-      text-decoration:none;
       font-size:0.7rem;
       letter-spacing:0.12em;
       text-transform:uppercase;
+      text-decoration:none;
       color:var(--muted);
     }
 
-    main { padding-top:6rem; }
+    main { padding-top: 6rem; }
 
     section {
+      padding:5rem 3rem;
       max-width:1200px;
       margin:0 auto;
-      padding:4rem 2rem;
     }
 
+    /* HERO */
+    .hero-banner {
+      width:100%;
+      height:100vh;
+      overflow:hidden;
+    }
+
+    .hero-banner img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:50% 70%;
+    }
+
+    /* WORK */
     .grid {
       display:grid;
-      grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
-      gap:2rem;
+      grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+      gap:2.5rem;
     }
 
     .painting { cursor:pointer; }
 
     .painting-img {
+      width:100%;
       background:var(--mid);
-      aspect-ratio: 4/5;
-      overflow:hidden;
       margin-bottom:0.8rem;
     }
 
     .painting-img img {
       width:100%;
-      height:100%;
-      object-fit:contain;
       display:block;
     }
 
@@ -109,11 +125,49 @@
     .status-available { color:var(--accent); }
     .status-sold { color:var(--muted); text-decoration:line-through; }
 
+    /* ABOUT */
+    #about {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:5rem;
+    }
+
+    .about-label {
+      font-size:0.7rem;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      color:var(--muted);
+      margin-bottom:1rem;
+    }
+
+    .about-bio {
+      font-family:"Cormorant Garamond", serif;
+      font-size:1.2rem;
+    }
+
+    /* EXHIBITIONS */
+    .exhibitions-list {
+      list-style:none;
+    }
+
+    .exhibitions-list li {
+      display:grid;
+      grid-template-columns:3rem 1fr;
+      gap:1rem;
+      padding:1rem 0;
+      border-bottom:1px solid var(--rule);
+    }
+
+    /* CONTACT */
+    #contact {
+      text-align:center;
+    }
+
     /* LIGHTBOX */
     .lightbox {
       position:fixed;
       inset:0;
-      background:rgba(0,0,0,0.9);
+      background:rgba(0,0,0,0.92);
       display:none;
       align-items:center;
       justify-content:center;
@@ -124,11 +178,9 @@
     .lightbox.open { display:flex; }
 
     .lightbox-inner {
-      display:grid;
-      grid-template-columns:1fr;
       max-width:900px;
       width:100%;
-      gap:1rem;
+      color:white;
     }
 
     .lightbox-img img {
@@ -138,33 +190,23 @@
       margin:auto;
     }
 
-    .lightbox-info {
-      color:#f7f4ef;
-    }
-
     .lightbox-title {
       font-family:"Cormorant Garamond", serif;
       font-size:1.6rem;
-      font-style:italic;
     }
 
     .lightbox-meta {
       font-size:0.8rem;
       color:#ccc;
-      margin:0.5rem 0;
-    }
-
-    .lightbox-price {
-      font-size:0.9rem;
     }
 
     .lightbox-close {
       position:fixed;
       top:1rem;
       right:1rem;
+      font-size:2rem;
       background:none;
       border:none;
-      font-size:2rem;
       color:white;
       cursor:pointer;
     }
@@ -178,28 +220,60 @@
   <ul class="nav-links">
     <li><a href="#work">Work</a></li>
     <li><a href="#about">About</a></li>
+    <li><a href="#exhibitions">Exhibitions</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
 
+<div class="hero-banner">
+  <img src="images/hero.JPEG" alt="Studio view">
+</div>
+
 <main>
 
+<!-- WORK -->
 <section id="work">
+  <p class="about-label">Available Work</p>
+  <h1 style="font-family:'Cormorant Garamond'; font-size:3rem;">Spencer <em>Hicks</em></h1>
+  <p class="about-label">Oakland, California</p>
+
   <div class="grid" id="grid"></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div>
+    <p class="about-label">About</p>
+    <div class="about-bio">
+      Spencer Hicks is an Oakland-based painter...
+    </div>
+  </div>
+
+  <div>
+    <p class="about-label">Solo Exhibitions</p>
+    <ul class="exhibitions-list" id="exhibitions"></ul>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <h2>Inquiries</h2>
+  <a href="mailto:spehicks@gmail.com">spehicks@gmail.com</a>
 </section>
 
 </main>
 
+<footer style="padding:2rem; text-align:center; color:#8a8278;">
+  © 2026 Spencer Hicks
+</footer>
+
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
-  <button class="lightbox-close" id="closeBtn">×</button>
+  <button class="lightbox-close" id="close">×</button>
   <div class="lightbox-inner">
     <div class="lightbox-img" id="lbImg"></div>
-    <div class="lightbox-info">
-      <div class="lightbox-title" id="lbTitle"></div>
-      <div class="lightbox-meta" id="lbMeta"></div>
-      <div class="lightbox-price" id="lbPrice"></div>
-    </div>
+    <div class="lightbox-title" id="lbTitle"></div>
+    <div class="lightbox-meta" id="lbMeta"></div>
   </div>
 </div>
 
@@ -211,8 +285,7 @@ const paintings = [
     medium:"Oil on canvas",
     dimensions:"60x75",
     image:"IMG_1219.JPEG",
-    available:true,
-    price:null
+    available:true
   },
   {
     title:"Tennis Kitchen",
@@ -220,43 +293,56 @@ const paintings = [
     medium:"Oil on panel",
     dimensions:"8x10",
     image:"IMG_0794.JPEG",
-    available:false,
-    price:null
+    available:false
   }
 ];
 
-let current = 0;
+const exhibitions = [
+  { year:2026, title:"Winning and Losing", venue:"San Francisco" },
+  { year:2019, title:"Ghirardelli Squares", venue:"SF" }
+];
 
 const grid = document.getElementById("grid");
 const lightbox = document.getElementById("lightbox");
 const lbImg = document.getElementById("lbImg");
 const lbTitle = document.getElementById("lbTitle");
 const lbMeta = document.getElementById("lbMeta");
-const lbPrice = document.getElementById("lbPrice");
 
-/* RENDER GRID */
+let current = 0;
+
+/* GRID */
 paintings.forEach((p,i)=>{
-  const div = document.createElement("div");
-  div.className = "painting";
+  const el = document.createElement("div");
+  el.className="painting";
 
-  div.innerHTML = `
+  el.innerHTML = `
     <div class="painting-img">
-      <img src="images/${p.image}" />
+      <img src="images/${p.image}">
     </div>
     <div class="painting-title">${p.title}</div>
     <div class="painting-meta">${p.year} · ${p.medium} · ${p.dimensions}</div>
-    <div class="painting-price ${p.available ? "status-available":"status-sold"}">
-      ${p.available ? "Available" : "Sold"}
+    <div class="painting-price ${p.available?'status-available':'status-sold'}">
+      ${p.available?'Available':'Sold'}
     </div>
   `;
 
-  div.onclick = () => open(i);
-  grid.appendChild(div);
+  el.onclick = ()=>open(i);
+  grid.appendChild(el);
+});
+
+/* EXHIBITIONS */
+const ex = document.getElementById("exhibitions");
+exhibitions.forEach(e=>{
+  ex.innerHTML += `
+    <li>
+      <span>${e.year}</span>
+      <div>${e.title}<br>${e.venue}</div>
+    </li>`;
 });
 
 /* LIGHTBOX */
 function open(i){
-  current = i;
+  current=i;
   render();
   lightbox.classList.add("open");
 }
@@ -267,36 +353,34 @@ function close(){
 
 function render(){
   const p = paintings[current];
-
-  lbImg.innerHTML = `<img src="images/${p.image}" />`;
+  lbImg.innerHTML = `<img src="images/${p.image}">`;
   lbTitle.textContent = p.title;
   lbMeta.textContent = `${p.year} · ${p.medium} · ${p.dimensions}`;
-  lbPrice.textContent = p.available ? "Available" : "Sold";
 }
 
-/* NAV */
 function next(dir){
   current += dir;
-  if(current < 0) current = paintings.length - 1;
-  if(current >= paintings.length) current = 0;
+  if(current<0) current=paintings.length-1;
+  if(current>=paintings.length) current=0;
   render();
 }
 
 /* EVENTS */
-document.getElementById("closeBtn").onclick = close;
+document.getElementById("close").onclick = close;
 
 lightbox.onclick = (e)=>{
-  if(e.target === lightbox) close();
+  if(e.target===lightbox) close();
 };
 
 document.addEventListener("keydown",(e)=>{
   if(!lightbox.classList.contains("open")) return;
-
   if(e.key==="Escape") close();
   if(e.key==="ArrowLeft") next(-1);
   if(e.key==="ArrowRight") next(1);
 });
 </script>
 
+</body>
+</html>
 </body>
 </html>
