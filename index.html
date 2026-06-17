@@ -668,6 +668,14 @@
   const lbMeta   = document.getElementById('lightbox-meta');
   const lbPrice  = document.getElementById('lightbox-price');
   const lbInquire= document.getElementById('lightbox-inquire');
+  // ─── EVENT LISTENERS (SETUP) ─────────────────────────
+
+document.getElementById('lightbox-close')
+  .addEventListener('click', closeLightbox);
+
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) closeLightbox();
+});
 
 function openLightbox(i) {
   currentIndex = i;
@@ -717,12 +725,7 @@ function renderLightbox(i) {
   if (currentIndex >= paintings.length) {
     currentIndex = 0;
   }
-document.getElementById('lightbox-close')
-  .addEventListener('click', closeLightbox);
 
-lightbox.addEventListener('click', (e) => {
-  if (e.target === lightbox) closeLightbox();
-});
   renderLightbox(currentIndex);
 }
   function closeLightbox() {
