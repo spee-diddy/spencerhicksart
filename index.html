@@ -344,7 +344,18 @@
   transform: scale(1);
   opacity: 1;
 }
+.lightbox-img {
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
 
+.lightbox-img.fade-in {
+  opacity: 1;
+}
+
+.lightbox-img:not(.fade-in) {
+  opacity: 0.4;
+}
 .lightbox-img {
   display: flex;
   align-items: center;
@@ -668,30 +679,34 @@ function renderLightbox(i) {
   const p = paintings[i];
 
   // fade image slightly during swap (optional polish)
-  lbImg.style.opacity = 0;
+function renderLightbox(i) {
+  const p = paintings[i];
 
-  setTimeout(() => {
-    lbImg.innerHTML = p.image
-      ? `<img src="images/${p.image}" alt="${p.title}" />`
-      : `<div class="placeholder-text">Image coming soon</div>`;
+  lbImg.classList.remove('fade-in');
 
-    lbTitle.textContent = p.title;
-    lbMeta.innerHTML = `${p.year}<br>${p.medium}<br>${p.dimensions}`;
+  lbImg.innerHTML = p.image
+    ? `<img src="images/${p.image}" alt="${p.title}" />`
+    : `<div class="placeholder-text">Image coming soon</div>`;
 
-    lbPrice.textContent = p.price
-      ? (p.available ? '$' + p.price.toLocaleString() : 'Sold')
-      : (p.available ? 'Price on request' : 'Sold');
+  lbTitle.textContent = p.title;
+  lbMeta.innerHTML = `${p.year}<br>${p.medium}<br>${p.dimensions}`;
 
-    lbPrice.className =
-      'lightbox-price ' + (p.available ? 'status-available' : 'status-sold');
+  lbPrice.textContent = p.price
+    ? (p.available ? '$' + p.price.toLocaleString() : 'Sold')
+    : (p.available ? 'Price on request' : 'Sold');
 
-    lbInquire.href =
-      `mailto:spehicks@gmail.com?subject=Inquiry: ${encodeURIComponent(p.title)}`;
+  lbPrice.className =
+    'lightbox-price ' + (p.available ? 'status-available' : 'status-sold');
 
-    lbInquire.style.display = p.available ? 'inline-block' : 'none';
+  lbInquire.href =
+    `mailto:spehicks@gmail.com?subject=Inquiry: ${encodeURIComponent(p.title)}`;
 
-    lbImg.style.opacity = 1;
-  }, 80);
+  lbInquire.style.display = p.available ? 'inline-block' : 'none';
+
+  requestAnimationFrame(() => {
+    lbImg.classList.add('fade-in');
+  });
+}
 }
   function navigate(dir) {
   currentIndex += dir;
@@ -703,7 +718,12 @@ function renderLightbox(i) {
   if (currentIndex >= paintings.length) {
     currentIndex = 0;
   }
+document.getElementById('lightbox-close')
+  .addEventListener('click', closeLightbox);
 
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) closeLightbox();
+});
   renderLightbox(currentIndex);
 }
   function closeLightbox() {
