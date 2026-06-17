@@ -667,24 +667,31 @@ function openLightbox(i) {
 function renderLightbox(i) {
   const p = paintings[i];
 
-  lbImg.innerHTML = p.image
-    ? `<img src="images/${p.image}" alt="${p.title}" />`
-    : `<div class="placeholder-text">Image coming soon</div>`;
+  // fade image slightly during swap (optional polish)
+  lbImg.style.opacity = 0;
 
-  lbTitle.textContent = p.title;
-  lbMeta.innerHTML = `${p.year}<br>${p.medium}<br>${p.dimensions}`;
+  setTimeout(() => {
+    lbImg.innerHTML = p.image
+      ? `<img src="images/${p.image}" alt="${p.title}" />`
+      : `<div class="placeholder-text">Image coming soon</div>`;
 
-  lbPrice.textContent = p.price
-    ? (p.available ? '$' + p.price.toLocaleString() : 'Sold')
-    : (p.available ? 'Price on request' : 'Sold');
+    lbTitle.textContent = p.title;
+    lbMeta.innerHTML = `${p.year}<br>${p.medium}<br>${p.dimensions}`;
 
-  lbPrice.className =
-    'lightbox-price ' + (p.available ? 'status-available' : 'status-sold');
+    lbPrice.textContent = p.price
+      ? (p.available ? '$' + p.price.toLocaleString() : 'Sold')
+      : (p.available ? 'Price on request' : 'Sold');
 
-  lbInquire.href =
-    `mailto:spehicks@gmail.com?subject=Inquiry: ${encodeURIComponent(p.title)}`;
+    lbPrice.className =
+      'lightbox-price ' + (p.available ? 'status-available' : 'status-sold');
 
-  lbInquire.style.display = p.available ? 'inline-block' : 'none';
+    lbInquire.href =
+      `mailto:spehicks@gmail.com?subject=Inquiry: ${encodeURIComponent(p.title)}`;
+
+    lbInquire.style.display = p.available ? 'inline-block' : 'none';
+
+    lbImg.style.opacity = 1;
+  }, 80);
 }
   function navigate(dir) {
   currentIndex += dir;
@@ -703,6 +710,21 @@ function renderLightbox(i) {
     lightbox.classList.remove('open');
     document.body.style.overflow = '';
   }
+  document.addEventListener('keydown', (e) => {
+  if (!lightbox.classList.contains('open')) return;
+
+  if (e.key === 'Escape') {
+    closeLightbox();
+  }
+
+  if (e.key === 'ArrowLeft') {
+    navigate(-1);
+  }
+
+  if (e.key === 'ArrowRight') {
+    navigate(1);
+  }
+});
 </script>
 
 </body>
