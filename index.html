@@ -118,7 +118,7 @@
 
     .painting-img {
       width: 100%;
-      aspect-ratio: 4/3;
+      aspect-ratio: auto;
       background: var(--mid);
       overflow: hidden;
       margin-bottom: 0.85rem;
@@ -128,7 +128,8 @@
     .painting-img img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
+      background: var(--mid);
       display: block;
       transition: transform 0.4s ease;
     }
@@ -454,7 +455,7 @@
       </div>
     </div>
     <div>
-      <p class="about-label">Exhibitions</p>
+      <p class="about-label">Solo Exhibitions</p>
       <ul class="exhibitions-list" id="exhibitions-list">
         <!-- injected by JS -->
       </ul>
