@@ -305,43 +305,59 @@
     footer a:hover { color: var(--ink); }
 
     /* LIGHTBOX */
-    .lightbox {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(26,23,20,0.92);
-      z-index: 200;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-    }
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(26,23,20,0.92);
+  z-index: 200;
 
-    .lightbox.open { display: flex; }
-
-.lightbox-inner {
-  max-width: 1100px;
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 3rem;
+
+  padding: 2rem;
+
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.lightbox.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lightbox-inner {
+  max-width: 1000px;
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+
+  transform: scale(0.96);
+  opacity: 0;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.lightbox.open .lightbox-inner {
+  transform: scale(1);
+  opacity: 1;
 }
 
 .lightbox-img {
-  flex: 2;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 .lightbox-img img {
-  max-width: 90vw;
-  max-height: 85vh;
+  max-width: 100%;
+  max-height: 80vh;
   width: auto;
   height: auto;
   object-fit: contain;
   display: block;
-  margin: 0 auto;
 }
 
     .lightbox-img .placeholder-text {
@@ -558,12 +574,12 @@
     {
       year: 2026,
       title: "Winning and Losing",
-      venue: "Formerly Land and Sea Gallery, Oakland"
+      venue: "Formerly Land and Sea Gallery, San Francisco"
     },
     {
       year: 2019,
       title: "Ghiradelli Squares",
-      venue: "In My Area, Oakland"
+      venue: "In My Area, San Francisco"
     },
     {
       year: 2018,
