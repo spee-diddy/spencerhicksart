@@ -643,6 +643,16 @@
   // ─── LIGHTBOX ────────────────────────────────────────────────────
   const lightbox = document.getElementById('lightbox');
   const lbImg    = document.getElementById('lightbox-img');
+  lbImg.addEventListener('click', (e) => {
+  const rect = lbImg.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+
+  if (x < rect.width / 2) {
+    navigate(-1);
+  } else {
+    navigate(1);
+  }
+});
   const lbTitle  = document.getElementById('lightbox-title');
   const lbMeta   = document.getElementById('lightbox-meta');
   const lbPrice  = document.getElementById('lightbox-price');
@@ -654,7 +664,41 @@ function openLightbox(i) {
   lightbox.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
+function renderLightbox(i) {
+  const p = paintings[i];
 
+  lbImg.innerHTML = p.image
+    ? `<img src="images/${p.image}" alt="${p.title}" />`
+    : `<div class="placeholder-text">Image coming soon</div>`;
+
+  lbTitle.textContent = p.title;
+  lbMeta.innerHTML = `${p.year}<br>${p.medium}<br>${p.dimensions}`;
+
+  lbPrice.textContent = p.price
+    ? (p.available ? '$' + p.price.toLocaleString() : 'Sold')
+    : (p.available ? 'Price on request' : 'Sold');
+
+  lbPrice.className =
+    'lightbox-price ' + (p.available ? 'status-available' : 'status-sold');
+
+  lbInquire.href =
+    `mailto:spehicks@gmail.com?subject=Inquiry: ${encodeURIComponent(p.title)}`;
+
+  lbInquire.style.display = p.available ? 'inline-block' : 'none';
+}
+  function navigate(dir) {
+  currentIndex += dir;
+
+  if (currentIndex < 0) {
+    currentIndex = paintings.length - 1;
+  }
+
+  if (currentIndex >= paintings.length) {
+    currentIndex = 0;
+  }
+
+  renderLightbox(currentIndex);
+}
   function closeLightbox() {
     lightbox.classList.remove('open');
     document.body.style.overflow = '';
