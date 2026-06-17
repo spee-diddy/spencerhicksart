@@ -325,19 +325,16 @@
   align-items: center;
 }
 
-    .lightbox-img {
-      width: 100%;
-      aspect-ratio: 4/3;
-      background: #2a2520;
-      overflow: hidden;
-    }
+.lightbox-img {
+  aspect-ratio: 4/3;
+}
 
-    .lightbox-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-    }
+.lightbox-img img {
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
+  object-fit: contain;
+}
 
     .lightbox-img .placeholder-text {
       width: 100%;
