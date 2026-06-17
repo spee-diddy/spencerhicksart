@@ -319,17 +319,16 @@
     .lightbox.open { display: flex; }
 
 .lightbox-inner {
-  max-width: 1000px;
+  max-width: 1100px;
   width: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 3rem;
 }
 
 .lightbox-img {
-  width: 100%;
+  flex: 2;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -357,7 +356,10 @@
       color: #5a5550;
     }
 
-    .lightbox-info { color: var(--warm); }
+.lightbox-info {
+  flex: 1;
+  color: var(--warm);
+}
 
     .lightbox-title {
       font-family: 'Cormorant Garamond', serif;
