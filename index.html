@@ -569,6 +569,7 @@
     price: null
   }
 ];
+  let currentIndex = 0;
   // ─── EXHIBITIONS ─────────────────────────────────────────────────
   const exhibitions = [
     {
@@ -647,26 +648,12 @@
   const lbPrice  = document.getElementById('lightbox-price');
   const lbInquire= document.getElementById('lightbox-inquire');
 
-  function openLightbox(i) {
-    const p = paintings[i];
-    lbImg.innerHTML = p.image
-      ? `<img src="images/${p.image}" alt="${p.title}" />`
-      : `<div class="placeholder-text">Image coming soon</div>`;
-    lbTitle.textContent = p.title;
-    lbMeta.innerHTML = `${p.year}<br>${p.medium}<br>${p.dimensions}`;
-    lbPrice.textContent = p.price
-      ? (p.available ? '$' + p.price.toLocaleString() : 'Sold')
-      : (p.available ? 'Price on request' : 'Sold');
-    lbPrice.className = 'lightbox-price ' + (p.available ? 'status-available' : 'status-sold');
-    lbInquire.href = `mailto:spehicks@gmail.com?subject=Inquiry: ${encodeURIComponent(p.title)}`;
-    lbInquire.style.display = p.available ? 'inline-block' : 'none';
-    lightbox.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
-  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+function openLightbox(i) {
+  currentIndex = i;
+  renderLightbox(i);
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
 
   function closeLightbox() {
     lightbox.classList.remove('open');
