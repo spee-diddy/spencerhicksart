@@ -563,15 +563,23 @@ const paintingImages = paintings.map(p => p.image);
 paintings.forEach((p, i) => {
   const el = document.createElement("div");
   el.className = "painting";
+
+  let priceLine;
+  if (!p.available) {
+    priceLine = `<div class="painting-price status-sold">Sold</div>`;
+  } else if (p.price) {
+    priceLine = `<div class="painting-price status-available">$${p.price.toLocaleString()}</div>`;
+  } else {
+    priceLine = `<div class="painting-price status-available">Price on request</div>`;
+  }
+
   el.innerHTML = `
     <div class="painting-img">
       <img src="images/${p.image}" alt="${p.title}">
     </div>
     <div class="painting-title">${p.title}</div>
     <div class="painting-meta">${p.year} · ${p.medium} · ${p.dimensions}</div>
-    <div class="painting-price ${p.available ? 'status-available' : 'status-sold'}">
-      ${p.available ? 'Available' : 'Sold'}
-    </div>
+    ${priceLine}
   `;
   el.onclick = () => openLightbox(
     paintingImages,
