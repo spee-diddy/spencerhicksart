@@ -145,15 +145,15 @@
       font-size:1.2rem;
     }
 
-/* EXHIBITIONS */
+    /* EXHIBITIONS */
     #exhibitions {
-  scroll-margin-top: 6rem;
-}
+      scroll-margin-top: 6rem;
+    }
 
-.exhibitions-list {
-  list-style: none;
-  font-family: "Cormorant Garamond", serif;
-}
+    .exhibitions-list {
+      list-style: none;
+      font-family: "Cormorant Garamond", serif;
+    }
 
     .exhibitions-list li {
       display:grid;
@@ -161,6 +161,28 @@
       gap:1rem;
       padding:1rem 0;
       border-bottom:1px solid var(--rule);
+    }
+
+    .ex-title-link {
+      font-style: italic;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+      transition: border-color 0.2s, color 0.2s;
+      cursor: pointer;
+    }
+
+    .ex-title-link:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .ex-venue {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-style: normal;
+      font-family: Inter, sans-serif;
+      margin-top: 0.15rem;
     }
 
     /* CONTACT */
@@ -194,14 +216,24 @@
       display:block;
       margin:auto;
     }
+
     .lightbox-title {
       font-family:"Cormorant Garamond", serif;
+      font-style: italic;
       font-size:1.6rem;
+      margin-top: 0.75rem;
     }
 
     .lightbox-meta {
       font-size:0.8rem;
       color:#ccc;
+    }
+
+    .lightbox-counter {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: #777;
+      margin-top: 0.3rem;
     }
 
     .lightbox-close {
@@ -214,29 +246,26 @@
       color:white;
       cursor:pointer;
     }
-.lightbox-arrow {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 3rem;
-  color: white;
-  cursor: pointer;
-  padding: 1rem;
-  user-select: none;
-}
 
-.lightbox-arrow-left {
-  left: 1rem;
-}
+    .lightbox-arrow {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 3rem;
+      color: white;
+      cursor: pointer;
+      padding: 1rem;
+      user-select: none;
+    }
 
-.lightbox-arrow-right {
-  right: 1rem;
-}
+    .lightbox-arrow-left  { left: 1rem; }
+    .lightbox-arrow-right { right: 1rem; }
+
     h1 {
-  font-family: "Cormorant Garamond", serif;
-  font-size: 3rem;
-  font-weight: 400;
-}
+      font-family: "Cormorant Garamond", serif;
+      font-size: 3rem;
+      font-weight: 400;
+    }
   </style>
 </head>
 
@@ -261,20 +290,17 @@
 <!-- WORK -->
 <section id="work">
   <p class="about-label">Available Work</p>
-  <h1>
-    Spencer <em>Hicks</em>
-  </h1>
+  <h1>Spencer <em>Hicks</em></h1>
   <p class="about-label">Oakland, California</p>
-
   <div class="grid" id="grid"></div>
 </section>
 
-<!-- ABOUT -->
+<!-- ABOUT + EXHIBITIONS -->
 <section id="about">
   <div>
     <p class="about-label">About</p>
     <div class="about-bio">
-      Spencer Hicks is an Oakland based painter. He holds a BA in literature and cinema from San Francisco State University and began painting seriously in 2018, studying privately with Bay Area urban landscape painter Anthony Holdsworth. In 2025 he completed a residency at the Mt. Gretna School of Art in Pennsylvania. He works as a film projectionist and AV technician at SFMOMA.
+      Spencer Hicks is an Oakland-based painter. He holds a BA in literature and cinema from San Francisco State University and began painting seriously in 2018, studying privately with Bay Area urban landscape painter Anthony Holdsworth. In 2025 he completed a residency at the Mt. Gretna School of Art in Pennsylvania. He works as a film projectionist and AV technician at SFMOMA.
     </div>
   </div>
 
@@ -283,7 +309,7 @@
     <ul class="exhibitions-list" id="exhibitionsList"></ul>
   </div>
 </section>
- 
+
 <!-- CONTACT -->
 <section id="contact">
   <h2>Inquiries</h2>
@@ -294,9 +320,7 @@
 
 <footer style="padding:2rem; text-align:center; color:#8a8278;">
   © 2026 Spencer Hicks · 
-  <a href="https://www.instagram.com/shpensherhicksh" target="_blank" rel="noopener">
-    Instagram
-  </a>
+  <a href="https://www.instagram.com/shpensherhicksh" target="_blank" rel="noopener">Instagram</a>
 </footer>
 
 <!-- LIGHTBOX -->
@@ -304,12 +328,11 @@
   <button class="lightbox-close" id="close">×</button>
   <div class="lightbox-inner">
     <div class="lightbox-img" id="lbImg"></div>
-
-    <div class="lightbox-arrow lightbox-arrow-left">‹</div>
-<div class="lightbox-arrow lightbox-arrow-right">›</div>
-
+    <div class="lightbox-arrow lightbox-arrow-left" id="arrowLeft">‹</div>
+    <div class="lightbox-arrow lightbox-arrow-right" id="arrowRight">›</div>
     <div class="lightbox-title" id="lbTitle"></div>
     <div class="lightbox-meta" id="lbMeta"></div>
+    <div class="lightbox-counter" id="lbCounter"></div>
   </div>
 </div>
 
@@ -319,7 +342,7 @@ const paintings = [
     title:"The Flop",
     year:2026,
     medium:"Oil on canvas",
-    dimensions:"60x75",
+    dimensions:'60 × 75"',
     image:"IMG_1219.JPEG",
     available:true,
     price: null
@@ -328,103 +351,175 @@ const paintings = [
     title:"Tennis Kitchen",
     year:2026,
     medium:"Oil on panel",
-    dimensions:"8x10",
+    dimensions:'8 × 10"',
     image:"IMG_0794_cropped.JPEG",
     available:false
   }
 ];
 
 const exhibitions = [
-  { year:2026, title:"Winning and Losing", venue:"Formerly Land and Sea, Oakland CA" },
-  { year:2019, title:"Ghiradelli Squares", venue:"In My Area, San Francisco" },
-  { year:2018, title:"The Last Hurrah", venue:"Goodnight Projects, San Francisco" }
+  {
+    year: 2026,
+    title: "Winning and Losing",
+    venue: "Formerly Land and Sea, Oakland CA",
+    images: [
+      "wl-01.jpg",
+      "wl-02.jpg",
+      "wl-03.jpg",
+      "wl-04.jpg",
+      "wl-05.jpg",
+      "wl-06.jpg",
+      "wl-07.jpg",
+      "wl-08.jpg",
+      "wl-09.jpg",
+      "wl-10.jpg"
+    ]
+  },
+  {
+    year: 2019,
+    title: "Ghirardelli Squares",
+    venue: "In My Area, San Francisco",
+    images: [
+      "gs-01.jpg",
+      "gs-02.jpg",
+      "gs-03.jpg",
+      "gs-04.jpg",
+      "gs-05.jpg",
+      "gs-06.jpg",
+      "gs-07.jpg",
+      "gs-08.jpg",
+      "gs-09.jpg",
+      "gs-10.jpg"
+    ]
+  },
+  {
+    year: 2018,
+    title: "The Last Hurrah",
+    venue: "Goodnight Projects, San Francisco",
+    images: [
+      "lh-01.jpg",
+      "lh-02.jpg",
+      "lh-03.jpg",
+      "lh-04.jpg",
+      "lh-05.jpg",
+      "lh-06.jpg",
+      "lh-07.jpg",
+      "lh-08.jpg",
+      "lh-09.jpg",
+      "lh-10.jpg"
+    ]
+  }
 ];
 
+// ── Lightbox state ──────────────────────────────────────────────
+let currentImages = [];  // the active image array
+let currentIndex  = 0;
+let currentLabel  = "";  // title shown in lightbox
+
+const lightbox  = document.getElementById("lightbox");
+const lbImg     = document.getElementById("lbImg");
+const lbTitle   = document.getElementById("lbTitle");
+const lbMeta    = document.getElementById("lbMeta");
+const lbCounter = document.getElementById("lbCounter");
+
+function openLightbox(images, index, title, meta) {
+  currentImages = images;
+  currentIndex  = index;
+  currentLabel  = title;
+  renderLightbox(meta);
+  lightbox.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeLightbox() {
+  lightbox.classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+function renderLightbox(meta) {
+  lbImg.innerHTML = `<img src="images/${currentImages[currentIndex]}" alt="">`;
+  lbTitle.textContent = currentLabel;
+  lbMeta.textContent  = meta || "";
+  lbCounter.textContent = currentImages.length > 1
+    ? `${currentIndex + 1} / ${currentImages.length}`
+    : "";
+}
+
+function navigate(dir) {
+  currentIndex += dir;
+  if (currentIndex < 0) currentIndex = currentImages.length - 1;
+  if (currentIndex >= currentImages.length) currentIndex = 0;
+  renderLightbox(lbMeta.textContent);
+}
+
+// ── Painting grid ───────────────────────────────────────────────
 const grid = document.getElementById("grid");
-const lightbox = document.getElementById("lightbox");
-const lbImg = document.getElementById("lbImg");
-const lbTitle = document.getElementById("lbTitle");
-const lbMeta = document.getElementById("lbMeta");
 
-let current = 0;
-
-/* GRID */
-paintings.forEach((p,i)=>{
+paintings.forEach((p, i) => {
   const el = document.createElement("div");
-  el.className="painting";
-
+  el.className = "painting";
   el.innerHTML = `
     <div class="painting-img">
-      <img src="images/${p.image}">
+      <img src="images/${p.image}" alt="${p.title}">
     </div>
     <div class="painting-title">${p.title}</div>
     <div class="painting-meta">${p.year} · ${p.medium} · ${p.dimensions}</div>
-    <div class="painting-price ${p.available?'status-available':'status-sold'}">
-      ${p.available?'Available':'Sold'}
+    <div class="painting-price ${p.available ? 'status-available' : 'status-sold'}">
+      ${p.available ? 'Available' : 'Sold'}
     </div>
   `;
-
-  el.onclick = ()=>open(i);
+  el.onclick = () => openLightbox(
+    [p.image],
+    0,
+    p.title,
+    `${p.year} · ${p.medium} · ${p.dimensions}`
+  );
   grid.appendChild(el);
 });
 
-/* EXHIBITIONS */
-const ex = document.getElementById("exhibitionsList");
-  
-exhibitions.forEach(e=>{
-  ex.innerHTML += `
-    <li>
-      <span>${e.year}</span>
-      <div>${e.title}<br>${e.venue}</div>
-    </li>`;
+// ── Exhibition list ─────────────────────────────────────────────
+const exList = document.getElementById("exhibitionsList");
+
+exhibitions.forEach((e, i) => {
+  const li = document.createElement("li");
+  li.innerHTML = `
+    <span>${e.year}</span>
+    <div>
+      <span class="ex-title-link" data-ex="${i}">${e.title}</span>
+      <div class="ex-venue">${e.venue}</div>
+    </div>
+  `;
+  li.querySelector(".ex-title-link").onclick = () => openLightbox(
+    e.images,
+    0,
+    e.title,
+    e.venue
+  );
+  exList.appendChild(li);
 });
 
-/* LIGHTBOX */
-function open(i){
-  current=i;
-  render();
-  lightbox.classList.add("open");
-}
+// ── Events ──────────────────────────────────────────────────────
+document.getElementById("close").onclick = closeLightbox;
 
-function close(){
-  lightbox.classList.remove("open");
-}
-
-function render(){
-  const p = paintings[current];
-  lbImg.innerHTML = `<img src="images/${p.image}">`;
-  lbTitle.textContent = p.title;
-  lbMeta.textContent = `${p.year} · ${p.medium} · ${p.dimensions}`;
-}
-
-function next(dir){
-  current += dir;
-  if(current<0) current=paintings.length-1;
-  if(current>=paintings.length) current=0;
-  render();
-}
-
-/* EVENTS */
-document.getElementById("close").onclick = close;
-
-lightbox.onclick = (e)=>{
-  if(e.target===lightbox) close();
+lightbox.onclick = (e) => {
+  if (e.target === lightbox) closeLightbox();
 };
-document.querySelector(".lightbox-arrow-left").onclick = (e) => {
+
+document.getElementById("arrowLeft").onclick = (e) => {
   e.stopPropagation();
-  next(-1);
+  navigate(-1);
 };
 
-document.querySelector(".lightbox-arrow-right").onclick = (e) => {
+document.getElementById("arrowRight").onclick = (e) => {
   e.stopPropagation();
-  next(1);
+  navigate(1);
 };
 
-document.addEventListener("keydown",(e)=>{
-  if(!lightbox.classList.contains("open")) return;
-  if(e.key==="Escape") close();
-  if(e.key==="ArrowLeft") next(-1);
-  if(e.key==="ArrowRight") next(1);
+document.addEventListener("keydown", (e) => {
+  if (!lightbox.classList.contains("open")) return;
+  if (e.key === "Escape")     closeLightbox();
+  if (e.key === "ArrowLeft")  navigate(-1);
+  if (e.key === "ArrowRight") navigate(1);
 });
 </script>
 
