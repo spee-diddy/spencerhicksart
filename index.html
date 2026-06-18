@@ -271,14 +271,16 @@
     <div class="about-bio">
       Spencer Hicks is an Oakland based painter. He holds a BA in literature and cinema from San Francisco State University and began painting seriously in 2018, studying privately with Bay Area urban landscape painter Anthony Holdsworth. In 2025 he completed a 2 month residency at the Mt. Gretna School of Art in Pennsylvania. He works as a film projectionist and AV technician at SFMOMA.
     </div>
+    
+  <div>
+    <p class="about-label">Solo Exhibitions</p>
+    <ul class="exhibitions-list" id="exhibitionsList"></ul>
+  </div>
+
   </div>
 
   </section>
-  <!-- EXHIBITIONS -->
-<section id="exhibitions">
-  <p class="about-label">Solo Exhibitions</p>
-  <ul class="exhibitions-list" id="exhibitionsList"></ul>
-</section>
+ 
 <!-- CONTACT -->
 <section id="contact">
   <h2>Inquiries</h2>
@@ -404,8 +406,15 @@ document.getElementById("close").onclick = close;
 lightbox.onclick = (e)=>{
   if(e.target===lightbox) close();
 };
-  document.querySelector(".lightbox-arrow-left").onclick = () => next(-1);
-document.querySelector(".lightbox-arrow-right").onclick = () => next(1);
+document.querySelector(".lightbox-arrow-left").onclick = (e) => {
+  e.stopPropagation();
+  next(-1);
+};
+
+document.querySelector(".lightbox-arrow-right").onclick = (e) => {
+  e.stopPropagation();
+  next(1);
+};
 
 document.addEventListener("keydown",(e)=>{
   if(!lightbox.classList.contains("open")) return;
