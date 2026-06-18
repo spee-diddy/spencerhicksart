@@ -267,7 +267,11 @@
   </div>
 
   </section>
-
+  <!-- EXHIBITIONS -->
+<section id="exhibitions">
+  <p class="about-label">Solo Exhibitions</p>
+  <ul class="exhibitions-list" id="exhibitionsList"></ul>
+</section>
 <!-- CONTACT -->
 <section id="contact">
   <h2>Inquiries</h2>
@@ -351,7 +355,8 @@ paintings.forEach((p,i)=>{
 });
 
 /* EXHIBITIONS */
-const ex = document.getElementById("exhibitions");
+const ex = document.getElementById("exhibitionsList");
+``
 exhibitions.forEach(e=>{
   ex.innerHTML += `
     <li>
