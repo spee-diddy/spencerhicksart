@@ -432,8 +432,17 @@ function closeLightbox() {
 
 function renderLightbox(meta) {
   lbImg.innerHTML = `<img src="images/${currentImages[currentIndex]}" alt="">`;
-  lbTitle.textContent = currentLabel;
-  lbMeta.textContent  = meta || "";
+
+  // If we're in painting mode, update title and meta to match current painting
+  if (currentImages === paintingImages) {
+    const p = paintings[currentIndex];
+    lbTitle.textContent = p.title;
+    lbMeta.textContent  = `${p.year} · ${p.medium} · ${p.dimensions}`;
+  } else {
+    lbTitle.textContent = currentLabel;
+    lbMeta.textContent  = meta || "";
+  }
+
   lbCounter.textContent = currentImages.length > 1
     ? `${currentIndex + 1} / ${currentImages.length}`
     : "";
@@ -449,6 +458,9 @@ function navigate(dir) {
 // ── Painting grid ───────────────────────────────────────────────
 const grid = document.getElementById("grid");
 
+// Build a flat array of all painting images for carousel use
+const paintingImages = paintings.map(p => p.image);
+
 paintings.forEach((p, i) => {
   const el = document.createElement("div");
   el.className = "painting";
@@ -463,8 +475,8 @@ paintings.forEach((p, i) => {
     </div>
   `;
   el.onclick = () => openLightbox(
-    [p.image],
-    0,
+    paintingImages,
+    i,
     p.title,
     `${p.year} · ${p.medium} · ${p.dimensions}`
   );
