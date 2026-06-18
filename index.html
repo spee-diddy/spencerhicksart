@@ -395,6 +395,8 @@ document.getElementById("close").onclick = close;
 lightbox.onclick = (e)=>{
   if(e.target===lightbox) close();
 };
+  document.querySelector(".lightbox-arrow-left").onclick = () => next(-1);
+document.querySelector(".lightbox-arrow-right").onclick = () => next(1);
 
 document.addEventListener("keydown",(e)=>{
   if(!lightbox.classList.contains("open")) return;
