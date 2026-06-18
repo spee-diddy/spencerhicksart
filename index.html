@@ -200,6 +200,7 @@
       justify-content:center;
       padding:2rem;
       z-index:200;
+      touch-action: pan-y;
     }
 
     .lightbox.open { display:flex; }
@@ -215,6 +216,7 @@
       max-height:80vh;
       display:block;
       margin:auto;
+      pointer-events: none;
     }
 
     .lightbox-title {
@@ -385,7 +387,6 @@ const exhibitions = [
       "gs-03.jpg",
       "gs-04.jpg",
       "gs-05.jpg"
-     
     ]
   },
   {
@@ -405,9 +406,9 @@ const exhibitions = [
 ];
 
 // ── Lightbox state ──────────────────────────────────────────────
-let currentImages = [];  // the active image array
+let currentImages = [];
 let currentIndex  = 0;
-let currentLabel  = "";  // title shown in lightbox
+let currentLabel  = "";
 
 const lightbox  = document.getElementById("lightbox");
 const lbImg     = document.getElementById("lbImg");
@@ -491,7 +492,7 @@ exhibitions.forEach((e, i) => {
   exList.appendChild(li);
 });
 
-// ── Events ──────────────────────────────────────────────────────
+// ── Keyboard & button events ────────────────────────────────────
 document.getElementById("close").onclick = closeLightbox;
 
 lightbox.onclick = (e) => {
@@ -513,6 +514,22 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape")     closeLightbox();
   if (e.key === "ArrowLeft")  navigate(-1);
   if (e.key === "ArrowRight") navigate(1);
+});
+
+// ── Touch swipe ─────────────────────────────────────────────────
+let touchStartX = null;
+
+lightbox.addEventListener("touchstart", (e) => {
+  touchStartX = e.touches[0].clientX;
+}, { passive: true });
+
+lightbox.addEventListener("touchend", (e) => {
+  if (touchStartX === null) return;
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 40) {
+    navigate(diff > 0 ? 1 : -1);
+  }
+  touchStartX = null;
 });
 </script>
 
