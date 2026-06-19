@@ -57,12 +57,56 @@
       list-style:none;
     }
 
-    .nav-links a {
+    .nav-links a,
+    .dropdown-trigger {
       font-size:0.7rem;
       letter-spacing:0.12em;
       text-transform:uppercase;
       text-decoration:none;
       color:var(--muted);
+    }
+
+    /* DROPDOWN NAV */
+    .nav-dropdown {
+      position: relative;
+    }
+
+    .nav-dropdown > .dropdown-trigger {
+      cursor: pointer;
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-top: 1rem;
+      background: var(--warm);
+      border: 1px solid var(--rule);
+      min-width: 140px;
+      padding: 0.5rem 0;
+      z-index: 110;
+    }
+
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu,
+    .nav-dropdown.open .dropdown-menu {
+      display: block;
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .dropdown-menu a:hover {
+      color: var(--accent);
     }
 
     main { padding-top: 6rem; }
@@ -94,6 +138,37 @@
       gap:2.5rem;
     }
 
+    /* SEE MORE BUTTON */
+    .see-more-wrap {
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    .see-more-btn {
+      background: none;
+      border: 1px solid var(--rule);
+      padding: 0.75rem 2rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink);
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .see-more-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .see-more-btn.hidden {
+      display: none;
+    }
+
+    .section-divider {
+      scroll-margin-top: 6rem;
+    }
+
     .painting { cursor:pointer; }
 
     .painting-img {
@@ -123,7 +198,7 @@
     }
 
     .status-available { color:var(--accent); }
-    .status-sold { color:var(--muted); text-decoration:line-through; }
+    .status-sold { color:var(--muted); }
 
     /* ABOUT */
     #about {
@@ -268,7 +343,8 @@
       font-size: 3rem;
       font-weight: 400;
     }
-        /* MOBILE: stack About and Exhibitions instead of side-by-side */
+
+    /* MOBILE: stack About and Exhibitions instead of side-by-side */
     @media (max-width: 768px) {
       #about {
         grid-template-columns: 1fr;
@@ -281,9 +357,16 @@
 <body>
 
 <nav>
-  <a href="#work" class="nav-name">Spencer Hicks</a>
+  <a href="#paintings" class="nav-name">Spencer Hicks</a>
   <ul class="nav-links">
-    <li><a href="#work">Work</a></li>
+    <li class="nav-dropdown">
+      <span class="dropdown-trigger">Work</span>
+      <div class="dropdown-menu">
+        <a href="#paintings">Paintings</a>
+        <a href="#collages">Collages</a>
+        <a href="#drawings">Drawings</a>
+      </div>
+    </li>
     <li><a href="#about">About</a></li>
     <li><a href="#exhibitions">Exhibitions</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -296,12 +379,25 @@
 
 <main>
 
-<!-- WORK -->
-<section id="work">
-  <p class="about-label">Available Work</p>
+<!-- PAINTINGS -->
+<section id="paintings" class="section-divider">
   <h1>Spencer <em>Hicks</em></h1>
   <p class="about-label">Oakland, California</p>
-  <div class="grid" id="grid"></div>
+
+  <div class="grid" id="paintingsGrid"></div>
+  <div class="see-more-wrap">
+    <button class="see-more-btn" id="seeMoreBtn">See more</button>
+  </div>
+</section>
+
+<!-- COLLAGES -->
+<section id="collages" class="section-divider">
+  <div class="grid" id="collagesGrid"></div>
+</section>
+
+<!-- DRAWINGS -->
+<section id="drawings" class="section-divider">
+  <div class="grid" id="drawingsGrid"></div>
 </section>
 
 <!-- ABOUT + EXHIBITIONS -->
@@ -350,6 +446,7 @@ const paintings = [
   {
     title:"The Flop",
     year:2026,
+    category:"paintings",
     medium:"Oil on canvas",
     dimensions:'60 × 75"',
     image:"IMG_1219.JPEG",
@@ -359,6 +456,7 @@ const paintings = [
   {
     title:"Night Sisters",
     year:2026,
+    category:"paintings",
     medium:"Oil on canvas",
     dimensions:'20 × 16"',
     image:"IMG_0531.JPEG",
@@ -368,6 +466,7 @@ const paintings = [
     {
     title:"Isabel's Dream",
     year:2026,
+    category:"paintings",
     medium:"Oil on panel",
     dimensions:'11 × 14"',
     image:"isabel.JPG",
@@ -377,15 +476,17 @@ const paintings = [
    {
     title:"Riverside",
     year:2026,
+    category:"paintings",
     medium:"Oil on canvas",
     dimensions:'24 × 18"',
-    image:"riverside.JPEG",
+    image:"IMG_0534.JPEG",
     available:true,
     price:730
   },
   {
     title:"November 23rd",
     year:2026,
+    category:"paintings",
     medium:"Oil on panel",
     dimensions:'8 × 10"',
     image:"nov23.JPEG",
@@ -395,6 +496,7 @@ const paintings = [
    {
     title:"Monday Evening Den",
     year:2026,
+    category:"paintings",
     medium:"Oil on panel",
     dimensions:'8 × 10"',
     image:"dogden.JPEG",
@@ -404,6 +506,7 @@ const paintings = [
     {
     title:"Triple Barrel",
     year:2026,
+    category:"paintings",
     medium:"Oil on canvas",
     dimensions:'14 × 11"',
     image:"IMG_0580.png",
@@ -413,6 +516,7 @@ const paintings = [
   {
     title:"Mary Lou and You and You",
     year:2026,
+    category:"paintings",
     medium:"Oil on canvas",
     dimensions:'40 × 30"',
     image:"marylou.jpg",
@@ -422,6 +526,7 @@ const paintings = [
    {
     title:"Rummikub",
     year:2026,
+    category:"paintings",
     medium:"Oil on canvas",
     dimensions:'11 × 14"',
     image:"IMG_0579.png",
@@ -431,6 +536,7 @@ const paintings = [
   {
     title:"Tennis Kitchen",
     year:2026,
+    category:"paintings",
     medium:"Oil on panel",
     dimensions:'8 × 10"',
     image:"IMG_0794_cropped.JPEG",
@@ -439,6 +545,7 @@ const paintings = [
     {
     title:"Bed Bets",
     year:2026,
+    category:"paintings",
     medium:"Oil on canvas",
     dimensions:'8 × 10"',
     image:"IMG_0529.JPEG",
@@ -448,6 +555,7 @@ const paintings = [
    {
     title:"Yellow Table Still Life",
     year:2026,
+    category:"paintings",
     medium:"Oil on canvas",
     dimensions:'38 × 24"',
     image:"yellowstill.JPG",
@@ -457,9 +565,10 @@ const paintings = [
    {
     title:"Pink Lady",
     year:2026,
+    category:"paintings",
     medium:"Oil on canvas",
     dimensions:'30 × 40"',
-    image:"pinklady.jpg",
+    image:"pinklady.png",
     available:false,
     price:1340
   }
@@ -515,6 +624,7 @@ const exhibitions = [
 let currentImages = [];
 let currentIndex  = 0;
 let currentLabel  = "";
+let currentList   = null; // null = exhibition mode; array = painting/collage/drawing list
 
 const lightbox  = document.getElementById("lightbox");
 const lbImg     = document.getElementById("lbImg");
@@ -522,10 +632,11 @@ const lbTitle   = document.getElementById("lbTitle");
 const lbMeta    = document.getElementById("lbMeta");
 const lbCounter = document.getElementById("lbCounter");
 
-function openLightbox(images, index, title, meta) {
+function openLightbox(images, index, title, meta, list) {
   currentImages = images;
   currentIndex  = index;
   currentLabel  = title;
+  currentList   = list || null;
   renderLightbox(meta);
   lightbox.classList.add("open");
   document.body.style.overflow = "hidden";
@@ -539,9 +650,8 @@ function closeLightbox() {
 function renderLightbox(meta) {
   lbImg.innerHTML = `<img src="images/${currentImages[currentIndex]}" alt="">`;
 
-  // If we're in painting mode, update title and meta to match current painting
-  if (currentImages === paintingImages) {
-    const p = paintings[currentIndex];
+  if (currentList) {
+    const p = currentList[currentIndex];
     lbTitle.textContent = p.title;
     lbMeta.textContent  = `${p.year} · ${p.medium} · ${p.dimensions}`;
   } else {
@@ -561,41 +671,73 @@ function navigate(dir) {
   renderLightbox(lbMeta.textContent);
 }
 
-// ── Painting grid ───────────────────────────────────────────────
-const grid = document.getElementById("grid");
+// ── Work sections (Paintings / Collages / Drawings) ──────────────
+const INITIAL_PAINTINGS_SHOWN = 12;
 
-// Build a flat array of all painting images for carousel use
-const paintingImages = paintings.map(p => p.image);
+const paintingsList = paintings.filter(p => p.category === "paintings");
+const collagesList  = paintings.filter(p => p.category === "collages");
+const drawingsList  = paintings.filter(p => p.category === "drawings");
 
-paintings.forEach((p, i) => {
+const paintingsGrid = document.getElementById("paintingsGrid");
+const collagesGrid  = document.getElementById("collagesGrid");
+const drawingsGrid  = document.getElementById("drawingsGrid");
+const seeMoreBtn    = document.getElementById("seeMoreBtn");
+
+function priceLineFor(p) {
+  if (!p.available) return `<div class="painting-price status-sold">Private Collection</div>`;
+  return `<div class="painting-price status-available">Available</div>`;
+}
+
+function buildCard(p, list, indexInList) {
   const el = document.createElement("div");
   el.className = "painting";
-
-  let priceLine;
-  if (!p.available) {
-    priceLine = `<div class="painting-price status-sold">Sold</div>`;
-  } else if (p.price) {
-    priceLine = `<div class="painting-price status-available">$${p.price.toLocaleString()}</div>`;
-  } else {
-    priceLine = `<div class="painting-price status-available">Price on request</div>`;
-  }
-
   el.innerHTML = `
     <div class="painting-img">
       <img src="images/${p.image}" alt="${p.title}">
     </div>
     <div class="painting-title">${p.title}</div>
     <div class="painting-meta">${p.year} · ${p.medium} · ${p.dimensions}</div>
-    ${priceLine}
+    ${priceLineFor(p)}
   `;
+  // Carousel cycles only within this list (this category)
   el.onclick = () => openLightbox(
-    paintingImages,
-    i,
+    list.map(item => item.image),
+    indexInList,
     p.title,
-    `${p.year} · ${p.medium} · ${p.dimensions}`
+    `${p.year} · ${p.medium} · ${p.dimensions}`,
+    list
   );
-  grid.appendChild(el);
+  return el;
+}
+
+function renderSection(grid, list) {
+  grid.innerHTML = "";
+  list.forEach((p, i) => grid.appendChild(buildCard(p, list, i)));
+}
+
+function renderPaintings(showAll) {
+  paintingsGrid.innerHTML = "";
+  const visible = showAll ? paintingsList : paintingsList.slice(0, INITIAL_PAINTINGS_SHOWN);
+  visible.forEach((p, i) => paintingsGrid.appendChild(buildCard(p, paintingsList, i)));
+
+  if (paintingsList.length <= INITIAL_PAINTINGS_SHOWN) {
+    seeMoreBtn.classList.add("hidden");
+  } else {
+    seeMoreBtn.classList.remove("hidden");
+    seeMoreBtn.textContent = showAll ? "See less" : "See more";
+  }
+}
+
+let paintingsExpanded = false;
+renderPaintings(paintingsExpanded);
+
+seeMoreBtn.addEventListener("click", () => {
+  paintingsExpanded = !paintingsExpanded;
+  renderPaintings(paintingsExpanded);
 });
+
+renderSection(collagesGrid, collagesList);
+renderSection(drawingsGrid, drawingsList);
 
 // ── Exhibition list ─────────────────────────────────────────────
 const exList = document.getElementById("exhibitionsList");
@@ -657,7 +799,32 @@ lightbox.addEventListener("touchend", (e) => {
   }
   touchStartX = null;
 });
+
+// ── Mobile dropdown (tap to open/close) ──────────────────────────
+const navDropdown = document.querySelector(".nav-dropdown");
+const dropdownTrigger = document.querySelector(".dropdown-trigger");
+
+dropdownTrigger.addEventListener("click", (e) => {
+  e.stopPropagation();
+  navDropdown.classList.toggle("open");
+});
+
+// Close dropdown after choosing a link
+document.querySelectorAll(".dropdown-menu a").forEach(link => {
+  link.addEventListener("click", () => {
+    navDropdown.classList.remove("open");
+  });
+});
+
+// Close dropdown when tapping anywhere else
+document.addEventListener("click", (e) => {
+  if (!navDropdown.contains(e.target)) {
+    navDropdown.classList.remove("open");
+  }
+});
 </script>
 
+</body>
+</html>
 </body>
 </html>
