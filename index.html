@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -80,12 +80,15 @@
       position: absolute;
       top: 100%;
       left: 0;
-      margin-top: 1rem;
+      padding-top: 1rem;
+      z-index: 110;
+    }
+
+    .dropdown-menu-inner {
       background: var(--warm);
       border: 1px solid var(--rule);
       min-width: 140px;
       padding: 0.5rem 0;
-      z-index: 110;
     }
 
     .nav-dropdown:hover .dropdown-menu,
@@ -362,9 +365,11 @@
     <li class="nav-dropdown">
       <span class="dropdown-trigger">Work</span>
       <div class="dropdown-menu">
-        <a href="#paintings">Paintings</a>
-        <a href="#collages">Collages</a>
-        <a href="#drawings">Drawings</a>
+        <div class="dropdown-menu-inner">
+          <a href="#paintings">Paintings</a>
+          <a href="#collages">Collages</a>
+          <a href="#drawings">Drawings</a>
+        </div>
       </div>
     </li>
     <li><a href="#about">About</a></li>
@@ -824,7 +829,5 @@ document.addEventListener("click", (e) => {
 });
 </script>
 
-</body>
-</html>
 </body>
 </html>
