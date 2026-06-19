@@ -141,6 +141,12 @@
       gap:2.5rem;
     }
 
+    /* Collages are small (playing-card sized) so use a tighter grid */
+    #collages .grid {
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1.5rem;
+    }
+
     /* SEE MORE BUTTON */
     .see-more-wrap {
       text-align: center;
@@ -611,7 +617,7 @@ const paintings = [
   dimensions:'2.5 × 3.5"',
   image:"ah.png",
   available:false
-},
+}
 ];
 
 const exhibitions = [
