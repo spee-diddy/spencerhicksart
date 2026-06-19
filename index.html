@@ -1,4 +1,4 @@
-<!DOCTYPE html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -170,6 +170,14 @@
 
     .section-divider {
       scroll-margin-top: 6rem;
+    }
+
+    /* Collages/Drawings are reachable via anchor links but not shown
+       as visible sections on the main page until they have content
+       you want surfaced. Remove this rule if you want them visible. */
+    #collages, #drawings {
+      padding: 0;
+      min-height: 0;
     }
 
     .painting { cursor:pointer; }
@@ -829,5 +837,7 @@ document.addEventListener("click", (e) => {
 });
 </script>
 
+</body>
+</html>
 </body>
 </html>
