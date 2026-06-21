@@ -183,6 +183,7 @@
        JS toggles which one has the class when a dropdown link is clicked. */
     .work-section {
       display: none;
+      padding-top: 1.5rem;
     }
 
     .work-section.active {
@@ -364,6 +365,25 @@
       font-weight: 400;
     }
 
+    .work-header {
+      padding: 5rem 3rem 0;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .work-header h1 {
+      margin: 0;
+    }
+
+    .work-subheading {
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 1.4rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
     /* MOBILE: stack About and Exhibitions instead of side-by-side */
     @media (max-width: 768px) {
       #about {
@@ -401,9 +421,14 @@
 
 <main>
 
+<!-- Persistent name, always shown above whichever Work section is active -->
+<div class="work-header">
+  <h1>Spencer <em>Hicks</em></h1>
+</div>
+
 <!-- PAINTINGS -->
 <section id="paintings" class="section-divider work-section active">
-  <h1>Spencer <em>Hicks</em></h1>
+  <h2 class="work-subheading">Paintings</h2>
   <p class="about-label">Oakland, California</p>
 
   <div class="grid" id="paintingsGrid"></div>
@@ -414,11 +439,13 @@
 
 <!-- COLLAGES -->
 <section id="collages" class="section-divider work-section">
+  <h2 class="work-subheading">Collages</h2>
   <div class="grid" id="collagesGrid"></div>
 </section>
 
 <!-- DRAWINGS -->
 <section id="drawings" class="section-divider work-section">
+  <h2 class="work-subheading">Drawings</h2>
   <div class="grid" id="drawingsGrid"></div>
 </section>
 
@@ -613,7 +640,7 @@ const paintings = [
   available:false
 },
       {
-  title:"3 of Spades",
+  title:"4 of Clubs",
   year:2026,
   category:"collages",
   medium:"Painted paper collage on playing card",
