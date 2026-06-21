@@ -178,12 +178,15 @@
       scroll-margin-top: 6rem;
     }
 
-    /* Collages/Drawings are reachable via anchor links but not shown
-       as visible sections on the main page until they have content
-       you want surfaced. Remove this rule if you want them visible. */
-    #collages, #drawings {
-      padding: 0;
-      min-height: 0;
+    /* Only one Work section (Paintings / Collages / Drawings) is shown
+       at a time. The active one gets .active; the rest stay hidden.
+       JS toggles which one has the class when a dropdown link is clicked. */
+    .work-section {
+      display: none;
+    }
+
+    .work-section.active {
+      display: block;
     }
 
     .painting { cursor:pointer; }
@@ -399,7 +402,7 @@
 <main>
 
 <!-- PAINTINGS -->
-<section id="paintings" class="section-divider">
+<section id="paintings" class="section-divider work-section active">
   <h1>Spencer <em>Hicks</em></h1>
   <p class="about-label">Oakland, California</p>
 
@@ -410,12 +413,12 @@
 </section>
 
 <!-- COLLAGES -->
-<section id="collages" class="section-divider">
+<section id="collages" class="section-divider work-section">
   <div class="grid" id="collagesGrid"></div>
 </section>
 
 <!-- DRAWINGS -->
-<section id="drawings" class="section-divider">
+<section id="drawings" class="section-divider work-section">
   <div class="grid" id="drawingsGrid"></div>
 </section>
 
@@ -855,11 +858,29 @@ dropdownTrigger.addEventListener("click", (e) => {
   navDropdown.classList.toggle("open");
 });
 
-// Close dropdown after choosing a link
-document.querySelectorAll(".dropdown-menu a").forEach(link => {
-  link.addEventListener("click", () => {
-    navDropdown.classList.remove("open");
+// ── Work section switching (Paintings / Collages / Drawings) ────
+const workSections = document.querySelectorAll(".work-section");
+
+function showWorkSection(id) {
+  workSections.forEach(s => s.classList.toggle("active", s.id === id));
+}
+
+document.querySelectorAll('.dropdown-menu a[href="#paintings"], .dropdown-menu a[href="#collages"], .dropdown-menu a[href="#drawings"]')
+  .forEach(link => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute("href").slice(1);
+      showWorkSection(targetId);
+      document.getElementById(targetId).scrollIntoView({ behavior: "smooth", block: "start" });
+      navDropdown.classList.remove("open");
+    });
   });
+
+// "Spencer Hicks" logo link should also return to Paintings
+document.querySelector(".nav-name").addEventListener("click", (e) => {
+  e.preventDefault();
+  showWorkSection("paintings");
+  document.getElementById("paintings").scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
 // Close dropdown when tapping anywhere else
