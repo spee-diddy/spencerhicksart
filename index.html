@@ -147,6 +147,29 @@
       gap: 1.5rem;
     }
 
+    /* Front/back image swap on hover, collages only */
+    .painting-img.has-back {
+      position: relative;
+    }
+
+    .painting-img.has-back .img-front,
+    .painting-img.has-back .img-back {
+      width: 100%;
+      display: block;
+    }
+
+    .painting-img.has-back .img-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .painting-img.has-back:hover .img-back {
+      opacity: 1;
+    }
+
     /* SEE MORE BUTTON */
     .see-more-wrap {
       text-align: center;
@@ -683,7 +706,7 @@ const paintings = [
   dimensions:'2.5 × 3.5"',
   image:"8D.png",
   available:false
-},
+}
 ];
 
 const exhibitions = [
@@ -803,10 +826,18 @@ function priceLineFor(p) {
 function buildCard(p, list, indexInList) {
   const el = document.createElement("div");
   el.className = "painting";
+
+  const imgMarkup = p.backImage
+    ? `<div class="painting-img has-back">
+         <img class="img-front" src="images/${p.image}" alt="${p.title}">
+         <img class="img-back" src="images/${p.backImage}" alt="${p.title} (reverse)">
+       </div>`
+    : `<div class="painting-img">
+         <img src="images/${p.image}" alt="${p.title}">
+       </div>`;
+
   el.innerHTML = `
-    <div class="painting-img">
-      <img src="images/${p.image}" alt="${p.title}">
-    </div>
+    ${imgMarkup}
     <div class="painting-title">${p.title}</div>
     <div class="painting-meta">${p.year} · ${p.medium} · ${p.dimensions}</div>
     ${priceLineFor(p)}
