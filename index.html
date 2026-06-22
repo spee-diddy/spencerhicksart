@@ -141,20 +141,27 @@
       gap:2.5rem;
     }
 
-    /* Collages are small (playing-card sized) so use a tighter grid */
+    /* Card-shaped frame, no cropping. A vertical box at width W has
+       area W^2 * 1.4. To give a horizontal box (ratio 3.5:2.5) that
+       same true area, its width must be ~1.4x the vertical width.
+       Since grid track spans are integer-only and overshoot this,
+       horizontal cards instead get an explicit wider basis via
+       a direct width override on the card itself. */
     #collages .grid {
       grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
       gap: 1.5rem;
+      align-items: start;
     }
 
-    /* Card-shaped frame, no cropping. Default is vertical (2.5:3.5);
-       JS detects each image's real dimensions on load and applies
-       .is-horizontal automatically if the image is wider than tall. */
     #collages .painting-img {
       aspect-ratio: 2.5 / 3.5;
     }
 
-    #collages .painting-img.is-horizontal {
+    #collages .painting.is-horizontal {
+      width: 140%;
+    }
+
+    #collages .painting.is-horizontal .painting-img {
       aspect-ratio: 3.5 / 2.5;
     }
 
@@ -882,17 +889,15 @@ function buildCard(p, list, indexInList) {
   );
 
   // For collages: detect each image's real orientation once it loads,
-  // and flip the frame to a horizontal aspect ratio if it's wider than tall.
+  // and mark the card as horizontal so CSS gives it a wider grid span
+  // and swapped aspect ratio with genuinely equal area to a vertical card.
   if (p.category === "collages") {
-    const frame = el.querySelector(".painting-img");
     const img = el.querySelector("img.img-front") || el.querySelector("img");
     const applyOrientation = () => {
       if (img.naturalWidth && img.naturalHeight && img.naturalWidth > img.naturalHeight) {
-        frame.classList.add("is-horizontal");
+        el.classList.add("is-horizontal");
       }
     };
-    // Always attach the listener (in case it's not actually loaded yet),
-    // AND check immediately in case it's already cached/loaded.
     img.addEventListener("load", applyOrientation);
     applyOrientation();
   }
