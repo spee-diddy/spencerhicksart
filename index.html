@@ -147,6 +147,25 @@
       gap: 1.5rem;
     }
 
+    /* Card-shaped frame, no cropping. Default is vertical (2.5:3.5);
+       JS detects each image's real dimensions on load and applies
+       .is-horizontal automatically if the image is wider than tall. */
+    #collages .painting-img {
+      aspect-ratio: 2.5 / 3.5;
+    }
+
+    #collages .painting-img.is-horizontal {
+      aspect-ratio: 3.5 / 2.5;
+    }
+
+    #collages .painting-img img,
+    #collages .painting-img .img-front,
+    #collages .painting-img .img-back {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
     /* Front/back image swap on hover, collages only */
     .painting-img.has-back {
       position: relative;
@@ -670,7 +689,7 @@ const paintings = [
   medium:"Painted paper collage on playing card",
   dimensions:'2.5 × 3.5"',
   image:"ah.png",
-        backImage:"3Sback.png",
+  backImage:"3Sback.png",
   available:true
 },
         {
@@ -861,6 +880,24 @@ function buildCard(p, list, indexInList) {
     `${p.year} · ${p.medium} · ${p.dimensions}`,
     list
   );
+
+  // For collages: detect each image's real orientation once it loads,
+  // and flip the frame to a horizontal aspect ratio if it's wider than tall.
+  if (p.category === "collages") {
+    const frame = el.querySelector(".painting-img");
+    const img = el.querySelector("img.img-front") || el.querySelector("img");
+    const applyOrientation = () => {
+      if (img.naturalWidth > img.naturalHeight) {
+        frame.classList.add("is-horizontal");
+      }
+    };
+    if (img.complete && img.naturalWidth) {
+      applyOrientation();
+    } else {
+      img.addEventListener("load", applyOrientation, { once: true });
+    }
+  }
+
   return el;
 }
 
