@@ -141,12 +141,11 @@
       gap:2.5rem;
     }
 
-    /* Card-shaped frame, no cropping. A vertical box at width W has
-       area W^2 * 1.4. To give a horizontal box (ratio 3.5:2.5) that
-       same true area, its width must be ~1.4x the vertical width.
-       Since grid track spans are integer-only and overshoot this,
-       horizontal cards instead get an explicit wider basis via
-       a direct width override on the card itself. */
+    /* Card-shaped frame, no cropping. Horizontal pieces (3.5:2.5)
+       get an actual reserved double-width grid track via
+       grid-column: span 2, so they never overlap a neighboring card.
+       This makes the horizontal box larger in area than a vertical
+       one (not a precise 1.4x match), but guarantees no collision. */
     #collages .grid {
       grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
       gap: 1.5rem;
@@ -158,7 +157,7 @@
     }
 
     #collages .painting.is-horizontal {
-      width: 140%;
+      grid-column: span 2;
     }
 
     #collages .painting.is-horizontal .painting-img {
