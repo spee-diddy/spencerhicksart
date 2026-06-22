@@ -141,24 +141,31 @@
       gap:2.5rem;
     }
 
-    /* Card-shaped frame, no cropping. Horizontal cards reserve a real
-       2-column grid span (so they can never overlap a neighbor), but
-       are capped via max-width at exactly 1.4x a vertical card's width
-       — the precise multiplier for equal area at a swapped 3.5:2.5
-       ratio. The unused remainder of the 2-column span stays empty. */
+    /* Collages use flexbox instead of CSS grid. Grid forces fixed
+       column tracks (causing either overlap or dead space when an
+       item's real size doesn't match a whole number of tracks).
+       Flexbox lets each card size itself by its own aspect ratio,
+       so a 1.4x-wide horizontal card sits flush against its
+       neighbors with no gap and no overlap. */
     #collages .grid {
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      display: flex;
+      flex-wrap: wrap;
       gap: 1.5rem;
-      align-items: start;
+      align-items: flex-start;
+    }
+
+    #collages .painting {
+      flex: 0 0 140px;
+      width: 140px;
+    }
+
+    #collages .painting.is-horizontal {
+      flex: 0 0 196px;
+      width: 196px;
     }
 
     #collages .painting-img {
       aspect-ratio: 2.5 / 3.5;
-    }
-
-    #collages .painting.is-horizontal {
-      grid-column: span 2;
-      max-width: calc((100% - 1.5rem) / 2 * 1.4);
     }
 
     #collages .painting.is-horizontal .painting-img {
