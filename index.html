@@ -887,15 +887,14 @@ function buildCard(p, list, indexInList) {
     const frame = el.querySelector(".painting-img");
     const img = el.querySelector("img.img-front") || el.querySelector("img");
     const applyOrientation = () => {
-      if (img.naturalWidth > img.naturalHeight) {
+      if (img.naturalWidth && img.naturalHeight && img.naturalWidth > img.naturalHeight) {
         frame.classList.add("is-horizontal");
       }
     };
-    if (img.complete && img.naturalWidth) {
-      applyOrientation();
-    } else {
-      img.addEventListener("load", applyOrientation, { once: true });
-    }
+    // Always attach the listener (in case it's not actually loaded yet),
+    // AND check immediately in case it's already cached/loaded.
+    img.addEventListener("load", applyOrientation);
+    applyOrientation();
   }
 
   return el;
