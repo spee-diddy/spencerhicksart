@@ -199,7 +199,15 @@
   }
 }
 
-.painting-img.has-back:hover .flip-inner {
+
+@media (hover: hover) {
+  .painting-img.has-back:hover .flip-inner {
+    transform: rotateY(180deg);
+  }
+}
+
+
+.painting-img.has-back.flipped .flip-inner {
   transform: rotateY(180deg);
 }
 
@@ -997,7 +1005,6 @@ function buildCard(p, list, indexInList) {
          <img class="img-back" src="images/${p.backImage}" alt="${p.title} (reverse)">
        </div>
      </div>`
-``
     : `<div class="painting-img">
          <img src="images/${p.image}" alt="${p.title}">
        </div>`;
@@ -1015,9 +1022,7 @@ function buildCard(p, list, indexInList) {
     const img = el.querySelector(".painting-img");
     img.classList.toggle("flipped");
   };
-.painting-img.has-back.flipped .flip-inner {
-  transform: rotateY(180deg);
-}
+
 } else {
   // DESKTOP (and all paintings): normal behavior
   el.onclick = () => openLightbox(
