@@ -300,19 +300,23 @@ opacity: 0;
     
 .painting {
   cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-.painting:hover {
-transform: translateY(-2px);
-box-shadow: 0 6px 14px rgba(0,0,0,0.06);
-}
+  }
+
 
     .painting-img {
       width:100%;
       background:var(--mid);
       margin-bottom:0.8rem;
     }
+.painting-img {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
 
+.painting:hover .painting-img {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+}
+``
     
 .painting-img img {
   width:100%;
@@ -1243,10 +1247,12 @@ document.querySelectorAll('.dropdown-menu a').forEach(link => {
       renderPaintings(true);
     }
 
-    document.getElementById(targetId).scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
+    setTimeout(() => {
+  document.getElementById(targetId).scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}, 50);
 
     navDropdown.classList.remove("open");
   });
