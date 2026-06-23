@@ -297,7 +297,15 @@ opacity: 0;
 }
 
 
-    .painting { cursor:pointer; }
+    
+.painting {
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.painting:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+}
 
     .painting-img {
       width:100%;
