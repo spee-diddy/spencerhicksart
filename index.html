@@ -1084,20 +1084,7 @@ const collagesSection = document.getElementById("collages");
     drawingsSection.classList.remove("collapsed");
     
 
-if (window.matchMedia("(hover: none)").matches) {
-      const hasSeenHint = localStorage.getItem("collageHintSeen");
 
-      if (!hasSeenHint) {
-        setTimeout(() => {
-          const firstCollage = document.querySelector("#collages .painting-img.has-back");
-          
-          if (firstCollage) {
-            firstCollage.classList.add("hint");
-            localStorage.setItem("collageHintSeen", "true");
-          }
-        }, 800);
-      }
-    }
 
   } else {
     collagesSection.classList.add("collapsed");
