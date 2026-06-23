@@ -979,12 +979,14 @@ function buildCard(p, list, indexInList) {
   const el = document.createElement("div");
   el.className = "painting";
 
-  const imgMarkup = p.backImage
-    ? `<div class="painting-img has-back">
-    <div class="flip-inner">
+     const imgMarkup = p.backImage
+  ? `<div class="painting-img has-back">
+       <div class="flip-inner">
          <img class="img-front" src="images/${p.image}" alt="${p.title}">
          <img class="img-back" src="images/${p.backImage}" alt="${p.title} (reverse)">
-       </div>`
+       </div>
+     </div>`
+``
     : `<div class="painting-img">
          <img src="images/${p.image}" alt="${p.title}">
        </div>`;
@@ -1002,7 +1004,9 @@ function buildCard(p, list, indexInList) {
     const img = el.querySelector(".painting-img");
     img.classList.toggle("flipped");
   };
-
+.painting-img.has-back.flipped .flip-inner {
+  transform: rotateY(180deg);
+}
 } else {
   // DESKTOP (and all paintings): normal behavior
   el.onclick = () => openLightbox(
