@@ -1055,14 +1055,19 @@ function buildCard(p, list, indexInList) {
     img.addEventListener("load", applyOrientation);
     applyOrientation();
   }
+
 const imgs = el.querySelectorAll("img");
 
 imgs.forEach(img => {
-  img.addEventListener("load", () => {
+  if (img.complete) {
     img.classList.add("loaded");
-  });
+  } else {
+    img.addEventListener("load", () => {
+      img.classList.add("loaded");
+    });
+  }
 });
-``
+
   return el;
 }
 
