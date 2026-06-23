@@ -210,6 +210,17 @@
   height: 100%;
   backface-visibility: hidden;
 }
+    
+.painting-img.has-back.hint .flip-inner {
+  animation: hintFlip 1.2s ease;
+}
+
+@keyframes hintFlip {
+  0%   { transform: rotateY(0deg); }
+  50%  { transform: rotateY(180deg); }
+  100% { transform: rotateY(0deg); }
+}
+
 
 .img-front {
   transform: rotateY(0deg);
@@ -1197,6 +1208,24 @@ document.addEventListener("click", (e) => {
     navDropdown.classList.remove("open");
   }
 });
+  
+if (window.matchMedia("(hover: none)").matches) {
+  const hasSeenHint = localStorage.getItem("collageHintSeen");
+
+  if (!hasSeenHint) {
+    setTimeout(() => {
+      const firstCollage = document.querySelector("#collages .painting-img.has-back");
+      
+      if (firstCollage) {
+        firstCollage.classList.add("hint");
+
+        // mark as seen so it never repeats
+        localStorage.setItem("collageHintSeen", "true");
+      }
+    }, 800);
+  }
+}
+
 </script>
 
 </body>
