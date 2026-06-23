@@ -234,9 +234,7 @@
       scroll-margin-top: 6rem;
     }
 
-    /* Only one Work section (Paintings / Collages / Drawings) is shown
-       at a time. The active one gets .active; the rest stay hidden.
-       JS toggles which one has the class when a dropdown link is clicked. */
+    
     .work-section {
   display: block;
   padding-top: 1.5rem;
@@ -1102,20 +1100,7 @@ dropdownTrigger.addEventListener("click", (e) => {
 // ── Work section switching (Paintings / Collages / Drawings) ────
 const workSections = document.querySelectorAll(".work-section");
 
-function showWorkSection(id) {
-  workSections.forEach(s => s.classList.toggle("active", s.id === id));
-}
 
-document.querySelectorAll('.dropdown-menu a[href="#paintings"], .dropdown-menu a[href="#collages"], .dropdown-menu a[href="#drawings"]')
-  .forEach(link => {
-    link.addEventListener("click", (e) => {
-      e.preventDefault();
-      const targetId = link.getAttribute("href").slice(1);
-      showWorkSection(targetId);
-      document.getElementById(targetId).scrollIntoView({ behavior: "smooth", block: "start" });
-      navDropdown.classList.remove("open");
-    });
-  });
 
 // "Spencer Hicks" logo link should also return to Paintings
 document.querySelector(".nav-name").addEventListener("click", (e) => {
