@@ -1082,16 +1082,27 @@ const collagesSection = document.getElementById("collages");
   if (paintingsExpanded) {
     collagesSection.classList.remove("collapsed");
     drawingsSection.classList.remove("collapsed");
-    
+ 
+f (window.matchMedia("(hover: none)").matches) {
+    const hasSeenHint = localStorage.getItem("collageHintSeen");
 
-
-
-  } else {
-    collagesSection.classList.add("collapsed");
-    drawingsSection.classList.add("collapsed");
+    if (!hasSeenHint) {
+      setTimeout(() => {
+        const firstCollage = document.querySelector("#collages .painting-img.has-back");
+        
+        if (firstCollage) {
+          firstCollage.classList.add("hint");
+          localStorage.setItem("collageHintSeen", "true");
+        }
+      }, 800);
+    }
   }
 
-});
+} else {
+  collagesSection.classList.add("collapsed");
+  drawingsSection.classList.add("collapsed");
+}
+
 
 
 renderSection(collagesGrid, collagesList);
