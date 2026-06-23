@@ -1097,18 +1097,51 @@ dropdownTrigger.addEventListener("click", (e) => {
   navDropdown.classList.toggle("open");
 });
 
-// ── Work section switching (Paintings / Collages / Drawings) ────
-const workSections = document.querySelectorAll(".work-section");
+
 
 
 
 // "Spencer Hicks" logo link should also return to Paintings
 document.querySelector(".nav-name").addEventListener("click", (e) => {
   e.preventDefault();
-  showWorkSection("paintings");
-  document.getElementById("paintings").scrollIntoView({ behavior: "smooth", block: "start" });
+
+  // ensure sections are visible
+  document.getElementById("collages").classList.remove("collapsed");
+  document.getElementById("drawings").classList.remove("collapsed");
+
+  if (!paintingsExpanded) {
+    paintingsExpanded = true;
+    renderPaintings(true);
+  }
+
+  document.getElementById("paintings").scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
 });
 
+document.querySelectorAll('.dropdown-menu a').forEach(link => {
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const targetId = link.getAttribute("href").slice(1);
+
+    document.getElementById("collages").classList.remove("collapsed");
+    document.getElementById("drawings").classList.remove("collapsed");
+
+    if (!paintingsExpanded) {
+      paintingsExpanded = true;
+      renderPaintings(true);
+    }
+
+    document.getElementById(targetId).scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
+    navDropdown.classList.remove("open");
+  });
+});
 // Close dropdown when tapping anywhere else
 document.addEventListener("click", (e) => {
   if (!navDropdown.contains(e.target)) {
