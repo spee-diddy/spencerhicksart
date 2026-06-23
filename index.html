@@ -416,7 +416,7 @@ opacity: 0;
     .lightbox {
       position:fixed;
       inset:0;
-      background:rgba(0,0,0,0.92);
+      background: rgba(10, 8, 6, 0.94);
       display:none;
       align-items:center;
       justify-content:center;
@@ -427,11 +427,22 @@ opacity: 0;
 
     .lightbox.open { display:flex; }
 
-    .lightbox-inner {
-      max-width:900px;
-      width:100%;
-      color:white;
-    }
+.lightbox.open .lightbox-inner {
+  transform: scale(1);
+  opacity: 1;
+}
+
+    
+.lightbox-inner {
+  max-width:900px;
+  width:100%;
+  color:white;
+
+  transform: scale(0.97);
+  opacity: 0;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
 
     .lightbox-img img {
       max-width: min(100%, 70vh);
