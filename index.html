@@ -1083,7 +1083,7 @@ const collagesSection = document.getElementById("collages");
     collagesSection.classList.remove("collapsed");
     drawingsSection.classList.remove("collapsed");
  
-f (window.matchMedia("(hover: none)").matches) {
+if (window.matchMedia("(hover: none)").matches) {
     const hasSeenHint = localStorage.getItem("collageHintSeen");
 
     if (!hasSeenHint) {
