@@ -305,10 +305,18 @@ opacity: 0;
       margin-bottom:0.8rem;
     }
 
-    .painting-img img {
-      width:100%;
-      display:block;
-    }
+    
+.painting-img img {
+  width:100%;
+  display:block;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.painting-img img.loaded {
+  opacity: 1;
+}
+
 
     .painting-title {
       font-family:"Cormorant Garamond", serif;
@@ -1047,7 +1055,14 @@ function buildCard(p, list, indexInList) {
     img.addEventListener("load", applyOrientation);
     applyOrientation();
   }
+const imgs = el.querySelectorAll("img");
 
+imgs.forEach(img => {
+  img.addEventListener("load", () => {
+    img.classList.add("loaded");
+  });
+});
+``
   return el;
 }
 
