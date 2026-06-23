@@ -238,11 +238,29 @@
     .work-section {
   display: block;
   padding-top: 1.5rem;
+opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+
 }
 
 .work-section.collapsed {
-  display: none;
+  
+opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  height: 0;
+  overflow: hidden;
 }
+
+#collages {
+  transition-delay: 0.05s;
+}
+
+#drawings {
+  transition-delay: 0.1s;
+}
+
 
     .painting { cursor:pointer; }
 
