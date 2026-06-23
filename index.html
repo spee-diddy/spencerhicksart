@@ -414,18 +414,28 @@ opacity: 0;
 
     /* LIGHTBOX */
     .lightbox {
-      position:fixed;
-      inset:0;
-      background: rgba(10, 8, 6, 0.94);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:2rem;
-      z-index:200;
-      touch-action: pan-y;
-    }
+  position:fixed;
+  inset:0;
+  background: rgba(10, 8, 6, 0.94);
 
-    .lightbox.open { display:flex; }
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:2rem;
+  z-index:200;
+  touch-action: pan-y;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+    
+.lightbox.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 
 .lightbox.open .lightbox-inner {
   transform: scale(1);
