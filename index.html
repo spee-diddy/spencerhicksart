@@ -461,6 +461,10 @@ transition: transform 0.3s ease, opacity 0.3s ease;
       pointer-events: none;
     }
 
+.lightbox-img {
+  transition: opacity 0.25s ease;
+}
+
     .lightbox-title {
       font-family:"Cormorant Garamond", serif;
       font-style: italic;
@@ -993,7 +997,12 @@ function closeLightbox() {
 }
 
 function renderLightbox(meta) {
+  lbImg.style.opacity = 0;
+
+setTimeout(() => {
   lbImg.innerHTML = `<img src="images/${currentImages[currentIndex]}" alt="">`;
+  lbImg.style.opacity = 1;
+}, 120);
 
   if (currentList) {
     const p = currentList[currentIndex];
