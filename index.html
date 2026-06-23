@@ -1012,6 +1012,18 @@ renderPaintings(paintingsExpanded);
 seeMoreBtn.addEventListener("click", () => {
   paintingsExpanded = !paintingsExpanded;
   renderPaintings(paintingsExpanded);
+  
+const collagesSection = document.getElementById("collages");
+  const drawingsSection = document.getElementById("drawings");
+
+  if (paintingsExpanded) {
+    collagesSection.classList.remove("collapsed");
+    drawingsSection.classList.remove("collapsed");
+  } else {
+    collagesSection.classList.add("collapsed");
+    drawingsSection.classList.add("collapsed");
+  }
+
 });
 
 renderSection(collagesGrid, collagesList);
