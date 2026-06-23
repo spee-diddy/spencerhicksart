@@ -238,13 +238,13 @@
        at a time. The active one gets .active; the rest stay hidden.
        JS toggles which one has the class when a dropdown link is clicked. */
     .work-section {
-      display: none;
-      padding-top: 1.5rem;
-    }
+  display: block;
+  padding-top: 1.5rem;
+}
 
-    .work-section.active {
-      display: block;
-    }
+.work-section.collapsed {
+  display: none;
+}
 
     .painting { cursor:pointer; }
 
@@ -483,7 +483,7 @@
 </div>
 
 <!-- PAINTINGS -->
-<section id="paintings" class="section-divider work-section active">
+<section id="paintings" class="section-divider work-section">
   <h2 class="work-subheading">Paintings</h2>
   <p class="about-label">Oakland, California</p>
 
@@ -494,13 +494,13 @@
 </section>
 
 <!-- COLLAGES -->
-<section id="collages" class="section-divider work-section">
+<section id="collages" class="section-divider work-section collapsed">
   <h2 class="work-subheading">Collages</h2>
   <div class="grid" id="collagesGrid"></div>
 </section>
 
 <!-- DRAWINGS -->
-<section id="drawings" class="section-divider work-section">
+<section id="drawings" class="section-divider work-section collapsed">
   <h2 class="work-subheading">Drawings</h2>
   <div class="grid" id="drawingsGrid"></div>
 </section>
