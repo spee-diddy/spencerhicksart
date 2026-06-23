@@ -193,6 +193,12 @@
   transform-style: preserve-3d;
 }
 
+@media (hover: none) {
+  .flip-inner {
+    transition: transform 0.4s ease;
+  }
+}
+
 .painting-img.has-back:hover .flip-inner {
   transform: rotateY(180deg);
 }
@@ -990,6 +996,15 @@ function buildCard(p, list, indexInList) {
     ${priceLineFor(p)}
   `;
   // Carousel cycles only within this list (this category)
+  if (p.category === "collages" && window.matchMedia("(hover: none)").matches) {
+  // MOBILE: tap flips only
+  el.onclick = () => {
+    const img = el.querySelector(".painting-img");
+    img.classList.toggle("flipped");
+  };
+
+} else {
+  // DESKTOP (and all paintings): normal behavior
   el.onclick = () => openLightbox(
     list.map(item => item.image),
     indexInList,
@@ -997,6 +1012,7 @@ function buildCard(p, list, indexInList) {
     `${p.year} · ${p.medium} · ${p.dimensions}`,
     list
   );
+}
 
   // For collages: detect each image's real orientation once it loads,
   // and mark the card as horizontal so CSS gives it a wider grid span
