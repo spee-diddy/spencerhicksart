@@ -1082,12 +1082,30 @@ const collagesSection = document.getElementById("collages");
   if (paintingsExpanded) {
     collagesSection.classList.remove("collapsed");
     drawingsSection.classList.remove("collapsed");
+    
+
+if (window.matchMedia("(hover: none)").matches) {
+      const hasSeenHint = localStorage.getItem("collageHintSeen");
+
+      if (!hasSeenHint) {
+        setTimeout(() => {
+          const firstCollage = document.querySelector("#collages .painting-img.has-back");
+          
+          if (firstCollage) {
+            firstCollage.classList.add("hint");
+            localStorage.setItem("collageHintSeen", "true");
+          }
+        }, 800);
+      }
+    }
+
   } else {
     collagesSection.classList.add("collapsed");
     drawingsSection.classList.add("collapsed");
   }
 
 });
+
 
 renderSection(collagesGrid, collagesList);
 renderSection(drawingsGrid, drawingsList);
@@ -1214,22 +1232,7 @@ document.addEventListener("click", (e) => {
   }
 });
   
-if (window.matchMedia("(hover: none)").matches) {
-  const hasSeenHint = localStorage.getItem("collageHintSeen");
 
-  if (!hasSeenHint) {
-    setTimeout(() => {
-      const firstCollage = document.querySelector("#collages .painting-img.has-back");
-      
-      if (firstCollage) {
-        firstCollage.classList.add("hint");
-
-        // mark as seen so it never repeats
-        localStorage.setItem("collageHintSeen", "true");
-      }
-    }, 800);
-  }
-}
 
 </script>
 
