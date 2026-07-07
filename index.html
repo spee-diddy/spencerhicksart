@@ -1581,7 +1581,8 @@ function renderPaintings(showAll) {
 
 let paintingsExpanded = false;
 renderPaintings(paintingsExpanded);
-
+let collagesRendered = false;
+let drawingsRendered = false;
 seeMoreBtn.addEventListener("click", () => {
   paintingsExpanded = !paintingsExpanded;
   renderPaintings(paintingsExpanded);
@@ -1592,6 +1593,9 @@ const collagesSection = document.getElementById("collages");
   if (paintingsExpanded) {
     collagesSection.classList.remove("collapsed");
     drawingsSection.classList.remove("collapsed");
+    if (!collagesRendered) { renderSection(collagesGrid, collagesList); collagesRendered = true; }
+    if (!drawingsRendered) { renderSection(drawingsGrid, drawingsList); drawingsRendered = true; }
+ 
  
 if (window.matchMedia("(hover: none)").matches) {
     const hasSeenHint = localStorage.getItem("collageHintSeen");
@@ -1615,8 +1619,6 @@ if (window.matchMedia("(hover: none)").matches) {
 });
 
 
-renderSection(collagesGrid, collagesList);
-renderSection(drawingsGrid, drawingsList);
 
 // ── Exhibition list ─────────────────────────────────────────────
 const exList = document.getElementById("exhibitionsList");
