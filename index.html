@@ -1692,7 +1692,7 @@ function renderSection(grid, list) {
 
   el.innerHTML = `
     <div class="painting-img">
-      <img src="${book.cover}" loading="lazy" alt="${book.title}">
+      <img src="images/${book.cover}" loading="lazy" alt="${book.title}">
     </div>
     <div class="painting-title">${book.title}</div>
     <div class="painting-meta">${book.year} · ${book.pages} pages · ${book.size}</div>
@@ -1703,33 +1703,13 @@ function renderSection(grid, list) {
     book.images,
     0,
     book.title,
-    `${book.year} · ${book.pages} pages`
+    `${book.year} · ${book.pages} pages`,
+    null
   );
 
   return el;
 }
-  function buildBookCard(book) {
-  const el = document.createElement("div");
-  el.className = "painting";
-
-  el.innerHTML = `
-    <div class="painting-img">
-      <img src="${book.cover}" loading="lazy" alt="${book.title}">
-    </div>
-    <div class="painting-title">${book.title}</div>
-    <div class="painting-meta">${book.year} · ${book.pages} pages · ${book.size}</div>
-    <div class="painting-meta">${book.description}</div>
-  `;
-
-  el.onclick = () => openLightbox(
-    book.images,
-    0,
-    book.title,
-    `${book.year} · ${book.pages} pages`
-  );
-
-  return el;
-}
+ 
 
 function renderPaintings(showAll) {
   paintingsGrid.innerHTML = "";
