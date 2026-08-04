@@ -668,6 +668,13 @@ transition: transform 0.3s ease, opacity 0.3s ease;
   <div class="grid" id="drawingsGrid"></div>
 </section>
 
+  <!-- BOOKS -->
+  <section id="books" class="section-divider work-section collapsed">
+  <h2 class="work-subheading">Books</h2>
+
+  <div class="grid" id="booksGrid"></div>
+</section>
+
 <!-- ABOUT + EXHIBITIONS -->
 
 <section id="about">
@@ -1457,7 +1464,20 @@ const paintings = [
   available:false
 },
 ];
-
+const books = [
+{
+    title: "Difficult Honeymoon",
+    year: 2025,
+    pages: 52,
+    size: '7 × 10"',
+    description: "a painted puzzle poem",
+    cover: "books/difficult-honeymoon/001.jpg",
+    images: Array.from(
+        {length:52},
+        (_,i)=>`books/difficult-honeymoon/${String(i+1).padStart(3,"0")}.jpg`
+    )
+}
+];
 const exhibitions = [
   {
     year: 2026,
