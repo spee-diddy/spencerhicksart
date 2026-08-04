@@ -1780,11 +1780,6 @@ document.querySelector(".nav-name").addEventListener("click", (e) => {
  if (!collagesRendered) { renderSection(collagesGrid, collagesList); collagesRendered = true; }
   if (!drawingsRendered) { renderSection(drawingsGrid, drawingsList); drawingsRendered = true; }
 
-  if (!paintingsExpanded) {
-    paintingsExpanded = true;
-    renderPaintings(true);
-  }
-
   document.getElementById("paintings").scrollIntoView({
     behavior: "smooth",
     block: "start"
