@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <!-- Google tag (gtag.js) -->
@@ -8,22 +9,13 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-TM3K96P6T1');
-</script>
-  <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="Paintings, collages, and drawings by Spencer Hicks." />
-<meta property="og:title" content="Spencer Hicks" />
-<meta property="og:description" content="Paintings, collages, and drawings by Spencer Hicks." />
-<meta property="og:image" content="https://spencerhicksart.com/images/share-image.jpg" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://spencerhicksart.com/" />
+gtag('config', 'G-TM3K96P6T1');</script><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="Paintings, collages, and drawings by Spencer Hicks." /><meta property="og:title" content="Spencer Hicks" /><meta property="og:description" content="Paintings, collages, and drawings by Spencer Hicks." /><meta property="og:image" content="https://spencerhicksart.com/images/share-image.jpg" /><meta property="og:type" content="website" /><meta property="og:url" content="https://spencerhicksart.com/" />
 
 <title>Spencer Hicks — Art</title>
 
 <link rel="icon" type="image/png" href="images/favicon.png"/>
 
-  
+
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -605,6 +597,7 @@ transition: transform 0.3s ease, opacity 0.3s ease;
   }
 }
   </style>
+
 </head>
 
 <body>
@@ -635,11 +628,13 @@ transition: transform 0.3s ease, opacity 0.3s ease;
 <main>
 
 <!-- Persistent name, always shown above whichever Work section is active -->
+
 <div class="work-header">
   <h1>Spencer <em>Hicks</em></h1>
 </div>
 
 <!-- PAINTINGS -->
+
 <section id="paintings" class="section-divider work-section">
   <h2 class="work-subheading">Paintings</h2>
   <p class="about-label">Oakland, California</p>
@@ -651,18 +646,21 @@ transition: transform 0.3s ease, opacity 0.3s ease;
 </section>
 
 <!-- COLLAGES -->
+
 <section id="collages" class="section-divider work-section collapsed">
   <h2 class="work-subheading">Collages</h2>
   <div class="grid" id="collagesGrid"></div>
 </section>
 
 <!-- DRAWINGS -->
+
 <section id="drawings" class="section-divider work-section collapsed">
   <h2 class="work-subheading">Drawings</h2>
   <div class="grid" id="drawingsGrid"></div>
 </section>
 
 <!-- ABOUT + EXHIBITIONS -->
+
 <section id="about">
   <div>
     <p class="about-label">About</p>
@@ -678,6 +676,7 @@ transition: transform 0.3s ease, opacity 0.3s ease;
 </section>
 
 <!-- CONTACT -->
+
 <section id="contact">
   <h2>Inquiries</h2>
   <a href="mailto:spehicks@gmail.com">spehicks@gmail.com</a>
@@ -691,6 +690,7 @@ transition: transform 0.3s ease, opacity 0.3s ease;
 </footer>
 
 <!-- LIGHTBOX -->
+
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" id="close">×</button>
   <div class="lightbox-inner">
@@ -1572,18 +1572,16 @@ function buildCard(p, list, indexInList) {
   const el = document.createElement("div");
   el.className = "painting";
 
-    const imgMarkup = p.backImage
+     const imgMarkup = p.backImage
   ? `<div class="painting-img has-back">
        <div class="flip-inner">
-         <img class="img-front"
-              src="images/${p.image}"
-              alt="${p.title}"
-              loading="lazyg-img">
-       }"
-            alt="${p.title}"
-            loading="lazy"
-            decoding="async">
-     </div>`;
+         <img class="img-front" src="images/${p.image}" alt="${p.title}">
+         <img class="img-back" src="images/${p.backImage}" alt="${p.title} (reverse)">
+       </div>
+     </div>`
+    : `<div class="painting-img">
+         <img src="images/${p.image}" alt="${p.title}">
+       </div>`;
 
   el.innerHTML = `
     ${imgMarkup}
@@ -1798,7 +1796,10 @@ document.querySelectorAll('.dropdown-menu a').forEach(link => {
     document.getElementById("drawings").classList.remove("collapsed");
  if (!collagesRendered) { renderSection(collagesGrid, collagesList); collagesRendered = true; }
     if (!drawingsRendered) { renderSection(drawingsGrid, drawingsList); drawingsRendered = true; }
-    
+    if (!paintingsExpanded) {
+      paintingsExpanded = true;
+      renderPaintings(true);
+    }
 
     setTimeout(() => {
   document.getElementById(targetId).scrollIntoView({
