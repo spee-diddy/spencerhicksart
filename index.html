@@ -572,10 +572,14 @@ transition: transform 0.3s ease, opacity 0.3s ease;
 @media (max-width: 768px) {
 .hero-banner {
 height: auto;
+  overflow: visible;
 }
  
 .hero-banner img {
-height: auto;
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: unset;
 }
 }
   </style>
