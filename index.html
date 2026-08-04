@@ -1706,6 +1706,15 @@ function renderSection(grid, list) {
     `${book.year} · ${book.pages} pages`,
     null
   );
+    const img = el.querySelector("img");
+
+if (img.complete) {
+  img.classList.add("loaded");
+} else {
+  img.addEventListener("load", () => {
+    img.classList.add("loaded");
+  });
+}
 
   return el;
 }
