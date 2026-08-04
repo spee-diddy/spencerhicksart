@@ -319,7 +319,7 @@ opacity: 0;
 }
     #books {
       transition-delay: 0.15s;
-
+    }
 
     
 .painting {
@@ -1592,7 +1592,7 @@ const INITIAL_PAINTINGS_SHOWN = 9;
 const paintingsList = paintings.filter(p => p.category === "paintings");
 const collagesList  = paintings.filter(p => p.category === "collages");
 const drawingsList  = paintings.filter(p => p.category === "drawings");
-  const booksList  = paintings.filter(p => p.category === "books");
+  const booksList  = books;
 
 const paintingsGrid = document.getElementById("paintingsGrid");
 const collagesGrid  = document.getElementById("collagesGrid");
@@ -1830,7 +1830,7 @@ document.querySelector(".nav-name").addEventListener("click", (e) => {
   document.getElementById("books").classList.remove("collapsed");
  if (!collagesRendered) { renderSection(collagesGrid, collagesList); collagesRendered = true; }
   if (!drawingsRendered) { renderSection(drawingsGrid, drawingsList); drawingsRendered = true; }
-   if (!booksRendered) { renderSection(bookssGrid, booksList); booksRendered = true; }
+   if (!booksRendered) { renderSection(booksGrid, booksList); booksRendered = true; }
 
   document.getElementById("paintings").scrollIntoView({
     behavior: "smooth",
