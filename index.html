@@ -1572,20 +1572,17 @@ function buildCard(p, list, indexInList) {
   const el = document.createElement("div");
   el.className = "painting";
 
-     const imgMarkup = p.backImage
+    const imgMarkup = p.backImage
   ? `<div class="painting-img has-back">
        <div class="flip-inner">
-         <img class="img-front" src="images/${p.image}" ages/${p.backImage}" inting-img">
-         /$p.image}"
-         alt="${p.title}"
-         loading="lazy"
-         decoding="async">
-         <img class="img-back" src="images/${p.backImage}" alt="${p.title} (reverse)">
-       </div>
-     </div>`
-    : `<div class="painting-img">
-         <img src="images/${p.image}" alt="${p.title}">
-       </div>`;
+         <img class="img-front"
+              src="images/${p.image}"
+              alt="${p.title}"
+              loading="lazy"
+              decoding="async">
+         <img class="img-back"
+              src="images/${p.backImage    decoding="async">
+     </div>`;
 
   el.innerHTML = `
     ${imgMarkup}
@@ -1800,10 +1797,7 @@ document.querySelectorAll('.dropdown-menu a').forEach(link => {
     document.getElementById("drawings").classList.remove("collapsed");
  if (!collagesRendered) { renderSection(collagesGrid, collagesList); collagesRendered = true; }
     if (!drawingsRendered) { renderSection(drawingsGrid, drawingsList); drawingsRendered = true; }
-    if (!paintingsExpanded) {
-      paintingsExpanded = true;
-      renderPaintings(true);
-    }
+    
 
     setTimeout(() => {
   document.getElementById(targetId).scrollIntoView({
