@@ -317,6 +317,8 @@ opacity: 0;
 #drawings {
   transition-delay: 0.1s;
 }
+    #books {
+      transition-delay: 0.15s;
 
 
     
@@ -1584,16 +1586,18 @@ function navigate(dir) {
   renderLightbox(lbMeta.textContent);
 }
 
-// ── Work sections (Paintings / Collages / Drawings) ──────────────
+// ── Work sections (Paintings / Collages / Drawings / Books) ──────────────
 const INITIAL_PAINTINGS_SHOWN = 9;
 
 const paintingsList = paintings.filter(p => p.category === "paintings");
 const collagesList  = paintings.filter(p => p.category === "collages");
 const drawingsList  = paintings.filter(p => p.category === "drawings");
+  const booksList  = paintings.filter(p => p.category === "books");
 
 const paintingsGrid = document.getElementById("paintingsGrid");
 const collagesGrid  = document.getElementById("collagesGrid");
 const drawingsGrid  = document.getElementById("drawingsGrid");
+  const booksGrid  = document.getElementById("booksGrid");
 const seeMoreBtn    = document.getElementById("seeMoreBtn");
 
 function priceLineFor(p) {
@@ -1700,18 +1704,22 @@ let paintingsExpanded = false;
 renderPaintings(paintingsExpanded);
 let collagesRendered = false;
 let drawingsRendered = false;
+  let booksRendered = false;
 seeMoreBtn.addEventListener("click", () => {
   paintingsExpanded = !paintingsExpanded;
   renderPaintings(paintingsExpanded);
   
 const collagesSection = document.getElementById("collages");
   const drawingsSection = document.getElementById("drawings");
+  const booksSection = document.getElementById("books");
 
   if (paintingsExpanded) {
     collagesSection.classList.remove("collapsed");
     drawingsSection.classList.remove("collapsed");
+    booksSection.classList.remove("collapsed");
     if (!collagesRendered) { renderSection(collagesGrid, collagesList); collagesRendered = true; }
     if (!drawingsRendered) { renderSection(drawingsGrid, drawingsList); drawingsRendered = true; }
+     if (!booksRendered) { renderSection(booksGrid, booksList); booksRendered = true; }
  
  
 if (window.matchMedia("(hover: none)").matches) {
@@ -1732,6 +1740,7 @@ if (window.matchMedia("(hover: none)").matches) {
 } else {
   collagesSection.classList.add("collapsed");
   drawingsSection.classList.add("collapsed");
+    booksSection.classList.add("collapsed");
 }
 });
 
@@ -1818,8 +1827,10 @@ document.querySelector(".nav-name").addEventListener("click", (e) => {
   // ensure sections are visible
   document.getElementById("collages").classList.remove("collapsed");
   document.getElementById("drawings").classList.remove("collapsed");
+  document.getElementById("books").classList.remove("collapsed");
  if (!collagesRendered) { renderSection(collagesGrid, collagesList); collagesRendered = true; }
   if (!drawingsRendered) { renderSection(drawingsGrid, drawingsList); drawingsRendered = true; }
+   if (!booksRendered) { renderSection(bookssGrid, booksList); booksRendered = true; }
 
   document.getElementById("paintings").scrollIntoView({
     behavior: "smooth",
@@ -1835,8 +1846,10 @@ document.querySelectorAll('.dropdown-menu a').forEach(link => {
 
     document.getElementById("collages").classList.remove("collapsed");
     document.getElementById("drawings").classList.remove("collapsed");
+    document.getElementById("books").classList.remove("collapsed");
  if (!collagesRendered) { renderSection(collagesGrid, collagesList); collagesRendered = true; }
     if (!drawingsRendered) { renderSection(drawingsGrid, drawingsList); drawingsRendered = true; }
+    if (!booksRendered) { renderSection(booksGrid, booksList); booksRendered = true; }
     
 
     setTimeout(() => {
