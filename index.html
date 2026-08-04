@@ -1905,7 +1905,13 @@ document.querySelectorAll('.dropdown-menu a').forEach(link => {
     document.getElementById("books").classList.remove("collapsed");
  if (!collagesRendered) { renderSection(collagesGrid, collagesList); collagesRendered = true; }
     if (!drawingsRendered) { renderSection(drawingsGrid, drawingsList); drawingsRendered = true; }
-    if (!booksRendered) { renderSection(booksGrid, booksList); booksRendered = true; }
+    if (!booksRendered) {
+  booksGrid.innerHTML = "";
+  booksList.forEach(book => {
+    booksGrid.appendChild(buildBookCard(book));
+  });
+  booksRendered = true;
+}
     
 
     setTimeout(() => {
