@@ -1575,14 +1575,21 @@ function buildCard(p, list, indexInList) {
      const imgMarkup = p.backImage
   ? `<div class="painting-img has-back">
        <div class="flip-inner">
-         <img class="img-front"
-              src="images/${p.image      src="images/${p.backImage}"
-              alt="${p.title} (reverse)"
-              loading="lazy"
-      alt="${p.title}"
+         p.image}"
+              alt="${p.title}"
               loading="lazy"
               decoding="async">
+
+         images/${p.backImage}"
+              alt="${p.title} (reverse)"
+              loading="lazy"
+              decoding="async">
+       </div>
+     </div>`
+    : `<div class="painting-img">
+         images/${p.image}
        </div>`;
+
 
   el.innerHTML = `
     ${imgMarkup}
