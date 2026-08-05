@@ -493,7 +493,10 @@ opacity: 0;
   perspective: 1200px;
   display: inline-block;
 }
-
+.collage-flip {
+  width: min(45vw, 45vh);
+  height: min(63vw, 63vh);
+}
 .lightbox-flip .flip-inner {
   position: relative;
   display: inline-block;
@@ -1629,8 +1632,8 @@ function renderLightbox(meta) {
     back.src = `images/${item.backImage}`;
 
     lbImg.innerHTML = `
-      <div class="lightbox-flip">
-        <div class="flip-inner">
+<div class="lightbox-flip collage-flip">
+<div class="flip-inner">
           <img class="img-front" src="${front.src}">
           <img class="img-back" src="${back.src}">
         </div>
