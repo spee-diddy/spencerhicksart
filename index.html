@@ -470,7 +470,7 @@ opacity: 0;
 .lightbox-inner {
   display: inline-flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   max-width: 900px;
   color: white;
 
@@ -490,8 +490,9 @@ opacity: 0;
   transition: opacity 0.25s ease;
 }
 .lightbox-flip {
-  perspective: 1200px;
-  display: inline-block;
+  width: min(80vw, 45vh);
+  aspect-ratio: 2.5 / 3.5;
+  perspective: 1000px;
 }
 
 .lightbox-flip .flip-inner {
@@ -528,11 +529,7 @@ opacity: 0;
   left: 0;
   transform: rotateY(180deg);
 }
-.lightbox-flip {
-  width: min(45vw, 45vh);
-  height: min(63vw, 63vh);
-  perspective: 1000px;
-}
+
 
 .lightbox-flip .flip-inner {
   width:100%;
