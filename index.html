@@ -1609,8 +1609,9 @@ if (item?.backImage) {
     </div>
   `;
 
+requestAnimationFrame(() => {
   lbImg.style.opacity = 1;
-
+});
   preload(currentIndex + 1);
   preload(currentIndex - 1);
 
