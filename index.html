@@ -1590,8 +1590,8 @@ function navigate(dir) {
 const INITIAL_PAINTINGS_SHOWN = 9;
 
 const paintingsList = paintings.filter(p => p.category === "paintings");
-const collagesList  = paintings.filter(p => p.category === "collages");
-const drawingsList  = paintings.filter(p => p.category === "drawings");
+const collagesList  = collages;
+  const drawingsList  = paintings.filter(p => p.category === "drawings");
   const booksList  = books;
 
 const paintingsGrid = document.getElementById("paintingsGrid");
