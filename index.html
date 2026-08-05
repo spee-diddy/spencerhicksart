@@ -1591,61 +1591,59 @@ function preload(index) {
 }
 function renderLightbox(meta) {
   showingBack = false;
+
   const item = currentList ? currentList[currentIndex] : null;
 
-const front = new Image();
-front.src = `images/${currentImages[currentIndex]}`;
+  const front = new Image();
+  front.src = `images/${currentImages[currentIndex]}`;
 
-if (item?.backImage) {
-  const back = new Image();
-  back.src = `images/${item.backImage}`;
+  lbImg.style.opacity = 0;
 
-  lbImg.innerHTML = `
-    <div class="lightbox-flip">
-      <div class="flip-inner">
-        <img class="img-front" src="${front.src}">
-        <img class="img-back" src="${back.src}">
+  if (item?.backImage) {
+
+    const back = new Image();
+    back.src = `images/${item.backImage}`;
+
+    lbImg.innerHTML = `
+      <div class="lightbox-flip">
+        <div class="flip-inner">
+          <img class="img-front" src="${front.src}">
+          <img class="img-back" src="${back.src}">
+        </div>
       </div>
-    </div>
-  `;
+    `;
 
-requestAnimationFrame(() => {
-  lbImg.style.opacity = 1;
-});
-  preload(currentIndex + 1);
-  preload(currentIndex - 1);
+    requestAnimationFrame(() => {
+      lbImg.style.opacity = 1;
+    });
 
-} else {
+    preload(currentIndex + 1);
+    preload(currentIndex - 1);
 
-  front.onload = () => {
-  lbImg.innerHTML = `
-    <div class="lightbox-flip">
-      <div class="flip-inner">
-        <img class="img-front" src="${front.src}">
-        <img class="img-back" src="${back.src}">
-      </div>
-    </div>
-  `;
+  } else {
 
-  requestAnimationFrame(() => {
-    lbImg.style.opacity = 1;
-  });
+    front.onload = () => {
+      lbImg.innerHTML = "";
+      lbImg.appendChild(front);
 
-  preload(currentIndex + 1);
-  preload(currentIndex - 1);
-};
+      requestAnimationFrame(() => {
+        lbImg.style.opacity = 1;
+      });
 
-}
+      preload(currentIndex + 1);
+      preload(currentIndex - 1);
+    };
 
-lbImg.style.opacity = 0;
+  }
+
 
   if (currentList) {
     const p = currentList[currentIndex];
     lbTitle.textContent = p.title;
-    lbMeta.textContent  = `${p.year} · ${p.medium} · ${p.dimensions}`;
+    lbMeta.textContent = `${p.year} · ${p.medium} · ${p.dimensions}`;
   } else {
     lbTitle.textContent = currentLabel;
-    lbMeta.textContent  = meta || "";
+    lbMeta.textContent = meta || "";
   }
 
   lbCounter.textContent = currentImages.length > 1
