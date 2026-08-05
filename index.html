@@ -1573,7 +1573,9 @@ lbImg.style.opacity = 0;
 img.onload = () => {
   lbImg.innerHTML = "";
   lbImg.appendChild(img);
+  requestAnimationFrame(() => {
   lbImg.style.opacity = 1;
+});
 
   preload(currentIndex + 1);
   preload(currentIndex - 1);
