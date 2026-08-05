@@ -490,9 +490,14 @@ opacity: 0;
   transition: opacity 0.25s ease;
 }
 .lightbox-flip {
-  width: min(80vw, 45vh);
+  width: min(45vh, 80vw);
   aspect-ratio: 2.5 / 3.5;
   perspective: 1000px;
+}
+
+.lightbox-flip.horizontal {
+  width: min(80vw, 45vh);
+  aspect-ratio: 3.5 / 2.5;
 }
 
 .lightbox-flip .flip-inner {
@@ -1624,8 +1629,10 @@ function renderLightbox(meta) {
     const back = new Image();
     back.src = `images/${item.backImage}`;
 
-    lbImg.innerHTML = `
-<div class="lightbox-flip collage-flip">
+    const isHorizontal = front.naturalWidth > front.naturalHeight;
+
+lbImg.innerHTML = `
+<div class="lightbox-flip collage-flip ${isHorizontal ? "horizontal" : ""}">
 <div class="flip-inner">
           <img class="img-front" src="${front.src}">
           <img class="img-back" src="${back.src}">
