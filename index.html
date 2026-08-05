@@ -1636,7 +1636,10 @@ function renderLightbox(meta) {
         </div>
       </div>
     `;
-
+    const flip = lbImg.querySelector(".lightbox-flip");
+    if (flip) {
+      flip.classList.remove("flipped");
+    }
     requestAnimationFrame(() => {
       lbImg.style.opacity = 1;
     });
