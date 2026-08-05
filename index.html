@@ -1885,7 +1885,12 @@ document.getElementById("arrowLeft").onclick = (e) => {
 };
 
 document.getElementById("arrowRight").onclick = (e) => {
-  lbImg.addEventListener("click", () => {
+  e.stopPropagation();
+  navigate(1);
+};
+  lbImg.addEventListener("click", (e) => {
+  e.stopPropagation();
+
   if (!currentList) return;
 
   const item = currentList[currentIndex];
@@ -1894,11 +1899,11 @@ document.getElementById("arrowRight").onclick = (e) => {
   showingBack = !showingBack;
 
   const flip = lbImg.querySelector(".lightbox-flip");
-  flip.classList.toggle("flipped", showingBack);
+  if (flip) {
+    flip.classList.toggle("flipped", showingBack);
+  }
 });
-  e.stopPropagation();
-  navigate(1);
-};
+
 
 document.addEventListener("keydown", (e) => {
   if (!lightbox.classList.contains("open")) return;
