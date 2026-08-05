@@ -489,7 +489,32 @@ opacity: 0;
 .lightbox-img {
   transition: opacity 0.25s ease;
 }
+.lightbox-flip {
+  perspective: 1200px;
+}
 
+.lightbox-flip .flip-inner {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+}
+
+.lightbox-flip.flipped .flip-inner {
+  transform: rotateY(180deg);
+}
+
+.lightbox-flip img {
+  display: block;
+  max-width: min(80vw, 70vh);
+  max-height: 70vh;
+  backface-visibility: hidden;
+}
+
+.lightbox-flip .img-back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+}
     .lightbox-title {
       font-family:"Cormorant Garamond", serif;
       font-style: italic;
@@ -1536,6 +1561,7 @@ let currentImages = [];
 let currentIndex  = 0;
 let currentLabel  = "";
 let currentList   = null; // null = exhibition mode; array = painting/collage/drawing list
+  let showingBack   = false;
 
 const lightbox  = document.getElementById("lightbox");
 const lbImg     = document.getElementById("lbImg");
@@ -1564,24 +1590,46 @@ function preload(index) {
   img.src = `images/${currentImages[index]}`;
 }
 function renderLightbox(meta) {
-  const src = `images/${currentImages[currentIndex]}`;
+  showingBack = false;
+  const item = currentList ? currentList[currentIndex] : null;
 
-const img = new Image();
+const front = new Image();
+front.src = `images/${currentImages[currentIndex]}`;
+
+if (item?.backImage) {
+  const back = new Image();
+  back.src = `images/${item.backImage}`;
+
+  front.onload = () => {
+    lbImg.innerHTML = `
+      <div class="lightbox-flip">
+        <div class="flip-inner">
+          <img class="img-front" src="${front.src}">
+          <img class="img-back" src="${back.src}">
+        </div>
+      </div>
+    `;
+
+    lbImg.style.opacity = 1;
+
+    preload(currentIndex + 1);
+    preload(currentIndex - 1);
+  };
+
+} else {
+
+  front.onload = () => {
+    lbImg.innerHTML = "";
+    lbImg.appendChild(front);
+    lbImg.style.opacity = 1;
+
+    preload(currentIndex + 1);
+    preload(currentIndex - 1);
+  };
+
+}
 
 lbImg.style.opacity = 0;
-
-img.onload = () => {
-  lbImg.innerHTML = "";
-  lbImg.appendChild(img);
-  requestAnimationFrame(() => {
-  lbImg.style.opacity = 1;
-});
-
-  preload(currentIndex + 1);
-  preload(currentIndex - 1);
-};
-
-img.src = src;
 
   if (currentList) {
     const p = currentList[currentIndex];
@@ -1837,6 +1885,17 @@ document.getElementById("arrowLeft").onclick = (e) => {
 };
 
 document.getElementById("arrowRight").onclick = (e) => {
+  lbImg.addEventListener("click", () => {
+  if (!currentList) return;
+
+  const item = currentList[currentIndex];
+  if (!item?.backImage) return;
+
+  showingBack = !showingBack;
+
+  const flip = lbImg.querySelector(".lightbox-flip");
+  flip.classList.toggle("flipped", showingBack);
+});
   e.stopPropagation();
   navigate(1);
 };
