@@ -1617,13 +1617,22 @@ if (item?.backImage) {
 } else {
 
   front.onload = () => {
-    lbImg.innerHTML = "";
-    lbImg.appendChild(front);
-    lbImg.style.opacity = 1;
+  lbImg.innerHTML = `
+    <div class="lightbox-flip">
+      <div class="flip-inner">
+        <img class="img-front" src="${front.src}">
+        <img class="img-back" src="${back.src}">
+      </div>
+    </div>
+  `;
 
-    preload(currentIndex + 1);
-    preload(currentIndex - 1);
-  };
+  requestAnimationFrame(() => {
+    lbImg.style.opacity = 1;
+  });
+
+  preload(currentIndex + 1);
+  preload(currentIndex - 1);
+};
 
 }
 
