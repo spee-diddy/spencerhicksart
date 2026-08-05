@@ -1600,21 +1600,19 @@ if (item?.backImage) {
   const back = new Image();
   back.src = `images/${item.backImage}`;
 
-  front.onload = () => {
-    lbImg.innerHTML = `
-      <div class="lightbox-flip">
-        <div class="flip-inner">
-          <img class="img-front" src="${front.src}">
-          <img class="img-back" src="${back.src}">
-        </div>
+  lbImg.innerHTML = `
+    <div class="lightbox-flip">
+      <div class="flip-inner">
+        <img class="img-front" src="${front.src}">
+        <img class="img-back" src="${back.src}">
       </div>
-    `;
+    </div>
+  `;
 
-    lbImg.style.opacity = 1;
+  lbImg.style.opacity = 1;
 
-    preload(currentIndex + 1);
-    preload(currentIndex - 1);
-  };
+  preload(currentIndex + 1);
+  preload(currentIndex - 1);
 
 } else {
 
