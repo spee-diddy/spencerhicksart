@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-/* gutters */
+/* gapped */
 <html lang="en">
 <head>
   <!-- Google tag (gtag.js) -->
@@ -531,7 +531,7 @@ opacity: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 0;
   max-width: 90vw;
   max-height: 72vh;
 }
@@ -545,11 +545,11 @@ opacity: 0;
 }
 
 .book-lightbox-page:first-child {
-  box-shadow: 6px 0 10px -8px rgba(0,0,0,.35);
+  box-shadow: inset -10px 0 14px -10px rgba(0,0,0,0.28);
 }
 
 .book-lightbox-page:last-child {
-  box-shadow: -6px 0 10px -8px rgba(0,0,0,.35);
+  box-shadow: inset 10px 0 14px -10px rgba(0,0,0,0.28);
 }
 
 .book-lightbox-cover {
