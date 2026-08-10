@@ -1870,22 +1870,62 @@ function renderPaintings(showAll) {
     seeMoreBtn.textContent = showAll ? "See less" : "See more";
   }
 }
-function renderCollages(showAll) {
+// ── Work section state ──────────────────────────────────────────
 let paintingsExpanded = false;
-  let collagesExpanded = false;
-  seeMoreCollagesBtn.addEventListener("click", () => {
-  collagesExpanded = !collagesExpanded;
-  renderCollages(collagesExpanded);
-});
-renderPaintings(paintingsExpanded);
+let collagesExpanded = false;
 let collagesRendered = false;
 let drawingsRendered = false;
-  let booksRendered = false;
+let booksRendered = false;
+
+// ── Render paintings ────────────────────────────────────────────
+function renderPaintings(showAll) {
+  paintingsGrid.innerHTML = "";
+
+  const visible = showAll
+    ? paintingsList
+    : paintingsList.slice(0, INITIAL_PAINTINGS_SHOWN);
+
+  visible.forEach((p, i) => {
+    paintingsGrid.appendChild(buildCard(p, paintingsList, i));
+  });
+
+  if (paintingsList.length <= INITIAL_PAINTINGS_SHOWN) {
+    seeMoreBtn.classList.add("hidden");
+  } else {
+    seeMoreBtn.classList.remove("hidden");
+    seeMoreBtn.textContent = showAll ? "See less" : "See more";
+  }
+}
+
+// ── Render collages ─────────────────────────────────────────────
+function renderCollages(showAll) {
+  collagesGrid.innerHTML = "";
+
+  const visible = showAll
+    ? collagesList
+    : collagesList.slice(0, INITIAL_COLLAGES_SHOWN);
+
+  visible.forEach((p, i) => {
+    collagesGrid.appendChild(buildCard(p, collagesList, i));
+  });
+
+  if (collagesList.length <= INITIAL_COLLAGES_SHOWN) {
+    seeMoreCollagesBtn.classList.add("hidden");
+  } else {
+    seeMoreCollagesBtn.classList.remove("hidden");
+    seeMoreCollagesBtn.textContent = showAll ? "See less" : "See more";
+  }
+}
+
+// ── Initially render paintings ─────────────────────────────────
+renderPaintings(false);
+
+// ── See more / less for paintings ───────────────────────────────
 seeMoreBtn.addEventListener("click", () => {
   paintingsExpanded = !paintingsExpanded;
   renderPaintings(paintingsExpanded);
-  
-const collagesSection = document.getElementById("collages");
+
+  const collagesSection = document.getElementById("collages");
   const drawingsSection = document.getElementById("drawings");
   const booksSection = document.getElementById("books");
 
@@ -1893,40 +1933,55 @@ const collagesSection = document.getElementById("collages");
     collagesSection.classList.remove("collapsed");
     drawingsSection.classList.remove("collapsed");
     booksSection.classList.remove("collapsed");
+
     if (!collagesRendered) {
-  renderCollages(collagesExpanded);
-  collagesRendered = true;
-}
-    if (!drawingsRendered) { renderSection(drawingsGrid, drawingsList); drawingsRendered = true; }
-     if (!booksRendered) {
-  booksGrid.innerHTML = "";
-  booksList.forEach(book => {
-    booksGrid.appendChild(buildBookCard(book));
-  });
-  booksRendered = true;
-}
- 
- 
-if (window.matchMedia("(hover: none)").matches) {
-    const hasSeenHint = localStorage.getItem("collageHintSeen");
-
-    if (!hasSeenHint) {
-      setTimeout(() => {
-        const firstCollage = document.querySelector("#collages .painting-img.has-back");
-        
-        if (firstCollage) {
-          firstCollage.classList.add("hint");
-          localStorage.setItem("collageHintSeen", "true");
-        }
-      }, 1000);
+      renderCollages(false);
+      collagesRendered = true;
     }
-  }
 
-} else {
-  collagesSection.classList.add("collapsed");
-  drawingsSection.classList.add("collapsed");
+    if (!drawingsRendered) {
+      renderSection(drawingsGrid, drawingsList);
+      drawingsRendered = true;
+    }
+
+    if (!booksRendered) {
+      booksGrid.innerHTML = "";
+
+      booksList.forEach(book => {
+        booksGrid.appendChild(buildBookCard(book));
+      });
+
+      booksRendered = true;
+    }
+
+    // Mobile hint for collage flip
+    if (window.matchMedia("(hover: none)").matches) {
+      const hasSeenHint = localStorage.getItem("collageHintSeen");
+
+      if (!hasSeenHint) {
+        setTimeout(() => {
+          const firstCollage =
+            document.querySelector("#collages .painting-img.has-back");
+
+          if (firstCollage) {
+            firstCollage.classList.add("hint");
+            localStorage.setItem("collageHintSeen", "true");
+          }
+        }, 1000);
+      }
+    }
+
+  } else {
+    collagesSection.classList.add("collapsed");
+    drawingsSection.classList.add("collapsed");
     booksSection.classList.add("collapsed");
-}
+  }
+});
+
+// ── See more / less for collages ────────────────────────────────
+seeMoreCollagesBtn.addEventListener("click", () => {
+  collagesExpanded = !collagesExpanded;
+  renderCollages(collagesExpanded);
 });
 
 
