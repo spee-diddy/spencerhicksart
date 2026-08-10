@@ -345,14 +345,25 @@ opacity: 0;
   box-shadow: 0 10px 22px rgba(0,0,0,0.08);
 }
 
-/* Make Thunder Racers slightly smaller on the Books page */
-#books .painting.thunder-racers .painting-img {
-  overflow: visible;
+/* BOOKS */
+#books .painting-img {
+  height: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.03);
 }
 
+#books .painting-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Thunder Racers is a smaller book */
 #books .painting.thunder-racers .painting-img img {
-  transform: scale(0.88);
-  transform-origin: top left;
+  width: 85%;
+  height: 85%;
 }
     
 .painting-img img {
