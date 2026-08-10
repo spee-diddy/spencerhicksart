@@ -1722,14 +1722,22 @@ function openBookLightbox(book) {
 
   currentBookSpreads = [];
 
-  // First image is the cover.
-  currentBookSpreads.push([book.images[0]]);
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-  // Every remaining pair of images is a facing-page spread.
-  for (let i = 1; i < book.images.length; i += 2) {
-    currentBookSpreads.push(
-      book.images.slice(i, i + 2)
-    );
+  if (isMobile) {
+    // Mobile: every page gets its own lightbox step.
+    book.images.forEach(image => {
+      currentBookSpreads.push([image]);
+    });
+  } else {
+    // Desktop: cover first, then facing-page spreads.
+    currentBookSpreads.push([book.images[0]]);
+
+    for (let i = 1; i < book.images.length; i += 2) {
+      currentBookSpreads.push(
+        book.images.slice(i, i + 2)
+      );
+    }
   }
 
   currentIndex = 0;
