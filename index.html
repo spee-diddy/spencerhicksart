@@ -719,7 +719,14 @@ opacity: 0;
 
 <section id="collages" class="section-divider work-section collapsed">
   <h2 class="work-subheading">Collages</h2>
+
   <div class="grid" id="collagesGrid"></div>
+
+  <div class="see-more-wrap">
+    <button class="see-more-btn" id="seeMoreCollagesBtn">
+      See more
+    </button>
+  </div>
 </section>
 
 <!-- DRAWINGS -->
@@ -1698,6 +1705,7 @@ function navigate(dir) {
 
 // ── Work sections (Paintings / Collages / Drawings / Books) ──────────────
 const INITIAL_PAINTINGS_SHOWN = 9;
+  const INITIAL_COLLAGES_SHOWN = 18;
 
 const paintingsList = paintings.filter(p => p.category === "paintings");
 const collagesList  = collages;
@@ -1860,7 +1868,10 @@ const collagesSection = document.getElementById("collages");
     collagesSection.classList.remove("collapsed");
     drawingsSection.classList.remove("collapsed");
     booksSection.classList.remove("collapsed");
-    if (!collagesRendered) { renderSection(collagesGrid, collagesList); collagesRendered = true; }
+    if (!collagesRendered) {
+  renderCollages(collagesExpanded);
+  collagesRendered = true;
+}
     if (!drawingsRendered) { renderSection(drawingsGrid, drawingsList); drawingsRendered = true; }
      if (!booksRendered) {
   booksGrid.innerHTML = "";
@@ -1994,7 +2005,10 @@ document.querySelector(".nav-name").addEventListener("click", (e) => {
   document.getElementById("collages").classList.remove("collapsed");
   document.getElementById("drawings").classList.remove("collapsed");
   document.getElementById("books").classList.remove("collapsed");
- if (!collagesRendered) { renderSection(collagesGrid, collagesList); collagesRendered = true; }
+ if (!collagesRendered) {
+  renderCollages(collagesExpanded);
+  collagesRendered = true;
+}
   if (!drawingsRendered) { renderSection(drawingsGrid, drawingsList); drawingsRendered = true; }
    if (!booksRendered) {
   booksGrid.innerHTML = "";
@@ -2019,7 +2033,10 @@ document.querySelectorAll('.dropdown-menu a').forEach(link => {
     document.getElementById("collages").classList.remove("collapsed");
     document.getElementById("drawings").classList.remove("collapsed");
     document.getElementById("books").classList.remove("collapsed");
- if (!collagesRendered) { renderSection(collagesGrid, collagesList); collagesRendered = true; }
+ if (!collagesRendered) {
+  renderCollages(collagesExpanded);
+  collagesRendered = true;
+}
     if (!drawingsRendered) { renderSection(drawingsGrid, drawingsList); drawingsRendered = true; }
     if (!booksRendered) {
   booksGrid.innerHTML = "";
