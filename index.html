@@ -344,6 +344,11 @@ opacity: 0;
   transform: translateY(-4px);
   box-shadow: 0 10px 22px rgba(0,0,0,0.08);
 }
+
+/* Make Thunder Racers slightly smaller on the Books page */
+#books .painting.thunder-racers .painting-img {
+  width: 88%;
+}
     
 .painting-img img {
   width:100%;
@@ -1836,7 +1841,7 @@ function renderSection(grid, list) {
 }
   function buildBookCard(book) {
   const el = document.createElement("div");
-  el.className = "painting";
+  el.className = "painting" + (book.title === "Thunder Racers" ? " thunder-racers" : "");
 
   el.innerHTML = `
     <div class="painting-img">
