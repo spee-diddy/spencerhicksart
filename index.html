@@ -1648,7 +1648,7 @@ function preload(index) {
   const img = new Image();
   img.src = `images/${currentImages[index]}`;
 }
-```js
+
 function renderLightbox(meta) {
   showingBack = false;
 
@@ -1697,23 +1697,6 @@ function renderLightbox(meta) {
     preload(currentIndex + 1);
     preload(currentIndex - 1);
   };
-
-  if (currentList) {
-    const p = currentList[currentIndex];
-    lbTitle.textContent = p.title;
-    lbMeta.textContent = `${p.year} · ${p.medium} · ${p.dimensions}`;
-  } else {
-    lbTitle.textContent = currentLabel;
-    lbMeta.textContent = meta || "";
-  }
-
-  lbCounter.textContent = currentImages.length > 1
-    ? `${currentIndex + 1} / ${currentImages.length}`
-    : "";
-}
-```
-
-
 
   if (currentList) {
     const p = currentList[currentIndex];
