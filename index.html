@@ -629,7 +629,15 @@ opacity: 0;
       color: var(--muted);
       margin-bottom: 1.5rem;
     }
+footer a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
 
+footer a:hover {
+  color: var(--accent);
+}
    /* MOBILE */
 @media (max-width: 768px) {
   #about {
@@ -707,8 +715,7 @@ opacity: 0;
 
 <section id="paintings" class="section-divider work-section">
   <h2 class="work-subheading">Paintings</h2>
-  <p class="about-label">Oakland, California</p>
-
+  
   <div class="grid" id="paintingsGrid"></div>
   <div class="see-more-wrap">
     <button class="see-more-btn" id="seeMoreBtn">See more</button>
@@ -762,15 +769,26 @@ opacity: 0;
 <!-- CONTACT -->
 
 <section id="contact">
-  <h2>Inquiries</h2>
-  <a href="mailto:spehicks@gmail.com">spehicks@gmail.com</a>
+  <p class="about-label">Contact</p>
+
+  <p style="margin-bottom:1rem;">
+    For inquiries regarding available work or exhibitions:
+  </p>
+
+  <a href="mailto:spehicks@gmail.com">
+    spehicks@gmail.com
+  </a>
 </section>
 
 </main>
 
 <footer style="padding:2rem; text-align:center; color:#8a8278;">
-  © 2026 Spencer Hicks · 
-  <a href="https://www.instagram.com/shpensherhicksh" target="_blank" rel="noopener">Instagram</a>
+  © 2026 Spencer Hicks ·
+  <a href="https://www.instagram.com/shpensherhicksh"
+     target="_blank"
+     rel="noopener">
+    instagram
+  </a>
 </footer>
 
 <!-- LIGHTBOX -->
