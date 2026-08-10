@@ -524,6 +524,33 @@ opacity: 0;
 .lightbox-img {
   transition: opacity 0.25s ease;
 }
+
+    /* BOOK LIGHTBOX SPREADS */
+
+.book-lightbox-spread {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 90vw;
+  max-height: 72vh;
+}
+
+.book-lightbox-page {
+  max-width: 45vw;
+  max-height: 72vh;
+  width: auto;
+  height: auto;
+  display: block;
+}
+
+.book-lightbox-cover {
+  max-width: min(45vw, 50vh);
+  max-height: 72vh;
+  width: auto;
+  height: auto;
+  display: block;
+}
+    
 .lightbox-flip {
   width: min(32vh, 60vw);
   aspect-ratio: 2.5 / 3.5;
@@ -1664,7 +1691,11 @@ let currentImages = [];
 let currentIndex  = 0;
 let currentLabel  = "";
 let currentList   = null; // null = exhibition mode; array = painting/collage/drawing list
-  let showingBack = false;
+let showingBack = false;
+
+let currentBook = null;
+let currentBookSpreads = [];
+let currentBookMode = false;
 
 const lightbox  = document.getElementById("lightbox");
 const lbImg     = document.getElementById("lbImg");
@@ -1681,10 +1712,97 @@ function openLightbox(images, index, title, meta, list) {
   lightbox.classList.add("open");
   document.body.style.overflow = "hidden";
 }
+function openBookLightbox(book) {
+  currentBook = book;
+  currentBookMode = true;
+  currentList = null;
+  showingBack = false;
 
+  currentBookSpreads = [];
+
+  // First image is the cover.
+  currentBookSpreads.push([book.images[0]]);
+
+  // Every remaining pair of images is a facing-page spread.
+  for (let i = 1; i < book.images.length; i += 2) {
+    currentBookSpreads.push(
+      book.images.slice(i, i + 2)
+    );
+  }
+
+  currentIndex = 0;
+
+  renderBookLightbox();
+
+  lightbox.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+  function renderBookLightbox() {
+  const spread = currentBookSpreads[currentIndex];
+
+  lbImg.style.opacity = 0;
+
+  lbImg.innerHTML = "";
+
+  const spreadContainer = document.createElement("div");
+  spreadContainer.className = "book-lightbox-spread";
+
+  spread.forEach((image, i) => {
+    const img = document.createElement("img");
+
+    img.src = `images/${image}`;
+    img.className =
+      spread.length === 1
+        ? "book-lightbox-cover"
+        : "book-lightbox-page";
+
+    img.alt =
+      spread.length === 1
+        ? `${currentBook.title} cover`
+        : `${currentBook.title} pages`;
+
+    spreadContainer.appendChild(img);
+
+    img.onload = () => {
+      lbImg.style.opacity = 1;
+    };
+  });
+
+  lbImg.appendChild(spreadContainer);
+
+  lbTitle.textContent = currentBook.title;
+  lbMeta.textContent =
+    `${currentBook.year} · ${currentBook.pages} pages`;
+
+  lbCounter.textContent =
+    currentBookSpreads.length > 1
+      ? `${currentIndex + 1} / ${currentBookSpreads.length}`
+      : "";
+
+  // Preload the next spread.
+  if (currentIndex + 1 < currentBookSpreads.length) {
+    currentBookSpreads[currentIndex + 1].forEach(image => {
+      const preloadImg = new Image();
+      preloadImg.src = `images/${image}`;
+    });
+  }
+
+  // Preload the previous spread.
+  if (currentIndex - 1 >= 0) {
+    currentBookSpreads[currentIndex - 1].forEach(image => {
+      const preloadImg = new Image();
+      preloadImg.src = `images/${image}`;
+    });
+  }
+}
+  
 function closeLightbox() {
   lightbox.classList.remove("open");
   document.body.style.overflow = "";
+
+  currentBook = null;
+  currentBookSpreads = [];
+  currentBookMode = false;
 }
 function preload(index) {
   if (index < 0 || index >= currentImages.length) return;
@@ -1757,9 +1875,32 @@ function renderLightbox(meta) {
 }
 
 function navigate(dir) {
+
+  if (currentBookMode) {
+    currentIndex += dir;
+
+    if (currentIndex < 0) {
+      currentIndex = currentBookSpreads.length - 1;
+    }
+
+    if (currentIndex >= currentBookSpreads.length) {
+      currentIndex = 0;
+    }
+
+    renderBookLightbox();
+    return;
+  }
+
   currentIndex += dir;
-  if (currentIndex < 0) currentIndex = currentImages.length - 1;
-  if (currentIndex >= currentImages.length) currentIndex = 0;
+
+  if (currentIndex < 0) {
+    currentIndex = currentImages.length - 1;
+  }
+
+  if (currentIndex >= currentImages.length) {
+    currentIndex = 0;
+  }
+
   renderLightbox(lbMeta.textContent);
 }
 
@@ -1878,13 +2019,8 @@ function renderSection(grid, list) {
     <div class="painting-meta">${book.description}</div>
   `;
 
-  el.onclick = () => openLightbox(
-    book.images,
-    0,
-    book.title,
-    `${book.year} · ${book.pages} pages`,
-    null
-  );
+  el.onclick = () => openBookLightbox(book);
+    
     const img = el.querySelector("img");
 
 if (img.complete) {
