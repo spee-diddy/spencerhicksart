@@ -1739,6 +1739,7 @@ function openBookLightbox(book) {
   document.body.style.overflow = "hidden";
 }
   function renderBookLightbox() {
+      const isMobile = window.matchMedia("(max-width: 768px)").matches;
   const spread = currentBookSpreads[currentIndex];
 
   lbImg.style.opacity = 0;
@@ -1748,26 +1749,41 @@ function openBookLightbox(book) {
   const spreadContainer = document.createElement("div");
   spreadContainer.className = "book-lightbox-spread";
 
-  spread.forEach((image, i) => {
+ if (spread.length === 1 || isMobile) {
+
+  // Cover or phone: show one page only.
+  const img = document.createElement("img");
+
+  img.src = `images/${spread[0]}`;
+  img.className = "book-lightbox-cover";
+  img.alt = currentBook.title;
+
+  img.onload = () => {
+    lbImg.style.opacity = 1;
+  };
+
+  spreadContainer.appendChild(img);
+
+} else {
+
+  // Desktop spread: show both pages.
+  spread.forEach(image => {
+
     const img = document.createElement("img");
 
     img.src = `images/${image}`;
-    img.className =
-      spread.length === 1
-        ? "book-lightbox-cover"
-        : "book-lightbox-page";
-
-    img.alt =
-      spread.length === 1
-        ? `${currentBook.title} cover`
-        : `${currentBook.title} pages`;
-
-    spreadContainer.appendChild(img);
+    img.className = "book-lightbox-page";
+    img.alt = currentBook.title;
 
     img.onload = () => {
       lbImg.style.opacity = 1;
     };
+
+    spreadContainer.appendChild(img);
+
   });
+
+}
 
   lbImg.appendChild(spreadContainer);
 
