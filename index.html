@@ -1717,7 +1717,8 @@ const collagesGrid  = document.getElementById("collagesGrid");
 const drawingsGrid  = document.getElementById("drawingsGrid");
   const booksGrid  = document.getElementById("booksGrid");
 const seeMoreBtn    = document.getElementById("seeMoreBtn");
-
+const seeMoreCollagesBtn =
+  document.getElementById("seeMoreCollagesBtn");
 function priceLineFor(p) {
   if (!p.available) return `<div class="painting-price status-sold">Private Collection</div>`;
   return `<div class="painting-price status-available">Available</div>`;
@@ -1850,8 +1851,13 @@ function renderPaintings(showAll) {
     seeMoreBtn.textContent = showAll ? "See less" : "See more";
   }
 }
-
+function renderCollages(showAll) {
 let paintingsExpanded = false;
+  let collagesExpanded = false;
+  seeMoreCollagesBtn.addEventListener("click", () => {
+  collagesExpanded = !collagesExpanded;
+  renderCollages(collagesExpanded);
+});
 renderPaintings(paintingsExpanded);
 let collagesRendered = false;
 let drawingsRendered = false;
