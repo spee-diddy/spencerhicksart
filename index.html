@@ -1648,6 +1648,7 @@ function preload(index) {
   const img = new Image();
   img.src = `images/${currentImages[index]}`;
 }
+```js
 function renderLightbox(meta) {
   showingBack = false;
 
@@ -1658,47 +1659,60 @@ function renderLightbox(meta) {
 
   lbImg.style.opacity = 0;
 
-  if (item?.backImage) {
+  front.onload = () => {
 
-    const back = new Image();
-    back.src = `images/${item.backImage}`;
+    if (item?.backImage) {
 
-    const isHorizontal = front.naturalWidth > front.naturalHeight;
+      const back = new Image();
+      back.src = `images/${item.backImage}`;
 
-lbImg.innerHTML = `
-<div class="lightbox-flip collage-flip ${isHorizontal ? "horizontal" : ""}">
-<div class="flip-inner">
-          <img class="img-front" src="${front.src}">
-          <img class="img-back" src="${back.src}">
+      const isHorizontal = front.naturalWidth > front.naturalHeight;
+
+      lbImg.innerHTML = `
+        <div class="lightbox-flip collage-flip ${isHorizontal ? "horizontal" : ""}">
+          <div class="flip-inner">
+            <img class="img-front" src="${front.src}">
+            <img class="img-back" src="${back.src}">
+          </div>
         </div>
-      </div>
-    `;
-    const flip = lbImg.querySelector(".lightbox-flip");
-    if (flip) {
-      flip.classList.remove("flipped");
+      `;
+
+      const flip = lbImg.querySelector(".lightbox-flip");
+
+      if (flip) {
+        flip.classList.remove("flipped");
+      }
+
+    } else {
+
+      lbImg.innerHTML = "";
+      lbImg.appendChild(front);
+
     }
+
     requestAnimationFrame(() => {
       lbImg.style.opacity = 1;
     });
 
     preload(currentIndex + 1);
     preload(currentIndex - 1);
+  };
 
+  if (currentList) {
+    const p = currentList[currentIndex];
+    lbTitle.textContent = p.title;
+    lbMeta.textContent = `${p.year} · ${p.medium} · ${p.dimensions}`;
   } else {
-
-    front.onload = () => {
-      lbImg.innerHTML = "";
-      lbImg.appendChild(front);
-
-      requestAnimationFrame(() => {
-        lbImg.style.opacity = 1;
-      });
-
-      preload(currentIndex + 1);
-      preload(currentIndex - 1);
-    };
-
+    lbTitle.textContent = currentLabel;
+    lbMeta.textContent = meta || "";
   }
+
+  lbCounter.textContent = currentImages.length > 1
+    ? `${currentIndex + 1} / ${currentImages.length}`
+    : "";
+}
+```
+
 
 
   if (currentList) {
