@@ -407,11 +407,7 @@ opacity: 0;
     .status-sold { color:var(--muted); }
 
     /* ABOUT */
-    #about {
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:5rem;
-    }
+    
 
     .about-label {
       font-size:0.7rem;
@@ -421,10 +417,6 @@ opacity: 0;
       margin-bottom:1rem;
     }
 
-    .about-bio {
-      font-family:"Cormorant Garamond", serif;
-      font-size:1.2rem;
-    }
 
     /* EXHIBITIONS */
     #exhibitions {
@@ -713,10 +705,6 @@ footer a:hover {
 }
    /* MOBILE */
 @media (max-width: 768px) {
-  #about {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-  }
 
   nav {
     padding: 1rem;
@@ -763,7 +751,6 @@ footer a:hover {
         </div>
       </div>
     </li>
-    <li><a href="#about">About</a></li>
     <li><a href="#exhibitions">Exhibitions</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -825,18 +812,10 @@ footer a:hover {
 
 <!-- ABOUT + EXHIBITIONS -->
 
-<section id="about">
-  <div>
-    <p class="about-label">About</p>
-    <div class="about-bio">
-      Spencer Hicks is an Oakland-based painter. He holds a BA in literature and cinema from San Francisco State University and began painting seriously in 2018, studying privately with Bay Area urban landscape painter Anthony Holdsworth. In 2025 he completed a residency at the Mt. Gretna School of Art in Pennsylvania. He works as a film projectionist and AV technician at SFMOMA.
-    </div>
-  </div>
 
-  <div id="exhibitions">
-    <p class="about-label">Solo Exhibitions</p>
-    <ul class="exhibitions-list" id="exhibitionsList"></ul>
-  </div>
+  <section id="exhibitions">
+  <p class="about-label">Solo Exhibitions</p>
+  <ul class="exhibitions-list" id="exhibitionsList"></ul>
 </section>
 
 <!-- CONTACT -->
