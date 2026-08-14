@@ -552,6 +552,17 @@ opacity: 0;
   height: auto;
   display: block;
 }
+    .book-lightbox-page,
+.book-lightbox-cover {
+  transition: transform 0.2s ease;
+  cursor: zoom-in;
+  touch-action: none;
+}
+
+.book-lightbox-page.zoomed,
+.book-lightbox-cover.zoomed {
+  cursor: grab;
+}
     
 .lightbox-flip {
   width: min(32vh, 60vw);
@@ -1712,6 +1723,7 @@ function clearBookURL() {
 let currentBook = null;
 let currentBookSpreads = [];
 let currentBookMode = false;
+  let panelZoomActive = false;
 
 const lightbox  = document.getElementById("lightbox");
 const lbImg     = document.getElementById("lbImg");
@@ -1762,6 +1774,85 @@ function openBookLightbox(book) {
   lightbox.classList.add("open");
   document.body.style.overflow = "hidden";
 }
+  const ZOOM_SCALE = 2.4; // adjust to taste — higher = more magnification
+
+function initZoomable(img) {
+  let zoomed = false;
+  let dragging = false;
+  let moved = false;
+  let startX = 0, startY = 0;
+  let originX = 50, originY = 50;
+  let panX = 0, panY = 0;
+  let startPanX = 0, startPanY = 0;
+
+  function applyTransform() {
+    img.style.transformOrigin = `${originX}% ${originY}%`;
+    img.style.transform = zoomed
+      ? `scale(${ZOOM_SCALE}) translate(${panX}px, ${panY}px)`
+      : "scale(1)";
+  }
+
+  function zoomIn(clientX, clientY) {
+    const rect = img.getBoundingClientRect();
+    originX = ((clientX - rect.left) / rect.width) * 100;
+    originY = ((clientY - rect.top) / rect.height) * 100;
+    panX = 0;
+    panY = 0;
+    zoomed = true;
+    panelZoomActive = true;
+    img.classList.add("zoomed");
+    applyTransform();
+  }
+
+  function zoomOut() {
+    zoomed = false;
+    panelZoomActive = false;
+    panX = 0;
+    panY = 0;
+    img.classList.remove("zoomed");
+    applyTransform();
+  }
+
+  img.addEventListener("pointerdown", (e) => {
+    dragging = true;
+    moved = false;
+    startX = e.clientX;
+    startY = e.clientY;
+    startPanX = panX;
+    startPanY = panY;
+    img.setPointerCapture(e.pointerId);
+  });
+
+  img.addEventListener("pointermove", (e) => {
+    if (!dragging || !zoomed) return;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
+      moved = true;
+      img.style.transition = "none";
+    }
+    panX = startPanX + dx / ZOOM_SCALE;
+    panY = startPanY + dy / ZOOM_SCALE;
+    applyTransform();
+  });
+
+  img.addEventListener("pointerup", (e) => {
+    dragging = false;
+    img.style.transition = "";
+    if (moved) return;
+    if (zoomed) {
+      zoomOut();
+    } else {
+      zoomIn(e.clientX, e.clientY);
+    }
+  });
+
+  img.addEventListener("pointercancel", () => {
+    dragging = false;
+    img.style.transition = "";
+  });
+}
+  
   function renderBookLightbox() {
       const isMobile = window.matchMedia("(max-width: 768px)").matches;
   const spread = currentBookSpreads[currentIndex];
@@ -1786,7 +1877,9 @@ function openBookLightbox(book) {
     lbImg.style.opacity = 1;
   };
 
+  initZoomable(img);
   spreadContainer.appendChild(img);
+
 
 } else {
 
@@ -1803,7 +1896,10 @@ function openBookLightbox(book) {
       lbImg.style.opacity = 1;
     };
 
+    initZoomable(img);
     spreadContainer.appendChild(img);
+
+  });
 
   });
 
@@ -1841,6 +1937,7 @@ function closeLightbox() {
   if (currentBookMode) {
     clearBookURL();
   }
+  panelZoomActive = false;
 
   lightbox.classList.remove("open");
   document.body.style.overflow = "";
@@ -1922,6 +2019,7 @@ function renderLightbox(meta) {
 function navigate(dir) {
 
   if (currentBookMode) {
+    panelZoomActive = false;
     currentIndex += dir;
 
     if (currentIndex < 0) {
@@ -2280,6 +2378,7 @@ lightbox.addEventListener("touchstart", (e) => {
 
 lightbox.addEventListener("touchend", (e) => {
   if (touchStartX === null) return;
+  if (panelZoomActive) { touchStartX = null; return; }
   const diff = touchStartX - e.changedTouches[0].clientX;
   if (Math.abs(diff) > 40) {
     navigate(diff > 0 ? 1 : -1);
