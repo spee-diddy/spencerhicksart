@@ -1694,6 +1694,20 @@ let currentIndex  = 0;
 let currentLabel  = "";
 let currentList   = null; // null = exhibition mode; array = painting/collage/drawing list
 let showingBack = false;
+  function slugify(str) {
+  return str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+function updateBookURL(book, spreadIndex) {
+  const params = new URLSearchParams();
+  params.set("book", slugify(book.title));
+  params.set("page", spreadIndex + 1);
+  history.replaceState(null, "", `${location.pathname}?${params.toString()}`);
+}
+
+function clearBookURL() {
+  history.replaceState(null, "", location.pathname);
+}
 
 let currentBook = null;
 let currentBookSpreads = [];
@@ -1743,6 +1757,7 @@ function openBookLightbox(book) {
   currentIndex = 0;
 
   renderBookLightbox();
+  updateBookURL(book, currentIndex);
 
   lightbox.classList.add("open");
   document.body.style.overflow = "hidden";
@@ -1823,6 +1838,10 @@ function openBookLightbox(book) {
 }
   
 function closeLightbox() {
+  if (currentBookMode) {
+    clearBookURL();
+  }
+
   lightbox.classList.remove("open");
   document.body.style.overflow = "";
 
@@ -1914,6 +1933,7 @@ function navigate(dir) {
     }
 
     renderBookLightbox();
+    updateBookURL(currentBook, currentIndex);
     return;
   }
 
@@ -2346,7 +2366,26 @@ document.addEventListener("click", (e) => {
     navDropdown.classList.remove("open");
   }
 });
-  
+  (function checkForBookDeepLink() {
+  const params = new URLSearchParams(location.search);
+  const bookSlug = params.get("book");
+  if (!bookSlug) return;
+
+  const book = booksList.find(b => slugify(b.title) === bookSlug);
+  if (!book) return;
+
+  openBookLightbox(book);
+
+  const pageParam = parseInt(params.get("page"), 10);
+  if (!isNaN(pageParam)) {
+    currentIndex = Math.min(
+      Math.max(pageParam - 1, 0),
+      currentBookSpreads.length - 1
+    );
+    renderBookLightbox();
+    updateBookURL(book, currentIndex);
+  }
+})();
 
 
 </script>
