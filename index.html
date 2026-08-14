@@ -1814,7 +1814,7 @@ function initZoomable(img) {
     img.setPointerCapture(e.pointerId);
   });
 
-  img.addEventListener("pointermove", (e) => {
+ img.addEventListener("pointermove", (e) => {
     if (pointerType === "mouse" && zoomed) {
       setOriginFromPoint(e.clientX, e.clientY);
       applyTransform();
@@ -1822,16 +1822,21 @@ function initZoomable(img) {
       return;
     }
 
-    if (!dragging || !zoomed) return;
+    if (!dragging) return;
+
     const dx = e.clientX - startX;
     const dy = e.clientY - startY;
+
     if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
       moved = true;
-      img.style.transition = "none";
     }
-    panX = startPanX + dx / ZOOM_SCALE;
-    panY = startPanY + dy / ZOOM_SCALE;
-    applyTransform();
+
+    if (zoomed) {
+      img.style.transition = "none";
+      panX = startPanX + dx / ZOOM_SCALE;
+      panY = startPanY + dy / ZOOM_SCALE;
+      applyTransform();
+    }
   });
 
   img.addEventListener("pointerup", (e) => {
