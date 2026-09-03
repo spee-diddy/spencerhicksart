@@ -2068,9 +2068,8 @@ const seeMoreCollagesBtn =
   document.getElementById("seeMoreCollagesBtn");
 function priceLineFor(p) {
   if (!p.available) return `<div class="painting-price status-sold">Private Collection</div>`;
-  return `<div class="painting-price status-available">Available</div>`;
+  return "";
 }
-
 function buildCard(p, list, indexInList) {
   const el = document.createElement("div");
   el.className = "painting";
