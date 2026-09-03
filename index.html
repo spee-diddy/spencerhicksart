@@ -1941,6 +1941,16 @@ function closeLightbox() {
   }
   panelZoomActive = false;
 
+  // Clear the book image so its zoom cursor/state cannot persist
+  lbImg.innerHTML = "";
+
+  lightbox.classList.remove("open");
+  document.body.style.overflow = "";
+
+  currentBook = null;
+  currentBookSpreads = [];
+  currentBookMode = false;
+}
   lightbox.classList.remove("open");
   document.body.style.overflow = "";
 
