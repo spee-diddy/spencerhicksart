@@ -198,11 +198,11 @@ gtag('config', 'G-TM3K96P6T1');
       aspect-ratio: 3.5 / 2.5;
     }
     
-/* Freeform collages: not part of the playing-card series — sized like paintings */
+/* Freeform collages: not part of the playing-card series — sized like paintings, but smaller (4 across vs. paintings' 3) */
     #collages .painting.freeform {
-      flex: 1 1 280px;
+      flex: 1 1 260px;
       width: auto;
-      max-width: 400px;
+      max-width: 280px;
     }
 
     #collages .painting.freeform .painting-img {
@@ -226,6 +226,14 @@ gtag('config', 'G-TM3K96P6T1');
       height: 100%;
       object-fit: contain;
     }
+    /* Forces the freeform group and the card group onto separate rows */
+#collages .row-break {
+  flex-basis: 100%;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+}
 
     /* Front/back image swap on hover, collages only */
     .painting-img.has-back {
@@ -2351,8 +2359,19 @@ function renderCollages(showAll) {
     ? collagesList
     : collagesList.slice(0, INITIAL_COLLAGES_SHOWN);
 
+  let lastType = null;
+
   visible.forEach((p, i) => {
+    const type = p.backImage ? "card" : "freeform";
+
+    if (lastType !== null && type !== lastType) {
+      const breakEl = document.createElement("div");
+      breakEl.className = "row-break";
+      collagesGrid.appendChild(breakEl);
+    }
+
     collagesGrid.appendChild(buildCard(p, collagesList, i));
+    lastType = type;
   });
 
   if (collagesList.length <= INITIAL_COLLAGES_SHOWN) {
