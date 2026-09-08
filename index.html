@@ -1139,6 +1139,35 @@ const paintings = [
     price:1480
   },
   ];
+
+  const drawings = [
+  // drawings go here, same format as paintings
+
+    {
+  title: "Figure 111",
+  year: 2025,
+  category: "drawings",
+  medium: "charcoal",
+  image: "fig1.jpg",
+  available: true,
+},
+    {
+  title: "Figure 112",
+  year: 2025,
+  category: "drawings",
+  medium: "charcoal",
+  image: "fig2.jpg",
+  available: true,
+},
+    {
+  title: "Figure 113",
+  year: 2025,
+  category: "drawings",
+  medium: "charcoal",
+  image: "fig3.jpg",
+  available: true,
+},
+];
   
   const collages = [
     {
@@ -2183,7 +2212,7 @@ const INITIAL_PAINTINGS_SHOWN = 9;
 
 const paintingsList = paintings.filter(p => p.category === "paintings");
 const collagesList  = collages;
-  const drawingsList  = paintings.filter(p => p.category === "drawings");
+  const drawingsList  = drawings;
   const booksList  = books;
 
 const paintingsGrid = document.getElementById("paintingsGrid");
