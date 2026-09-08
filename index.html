@@ -2175,7 +2175,7 @@ function renderSection(grid, list) {
 }
   function buildBookCard(book) {
   const el = document.createElement("div");
-  el.className = "painting" + (book.title === "Thunder Racers" ? " thunder-racers" : "");
+  el.className = "painting" + (["Thunder Racers", "Ghiradelli Squares"].includes(book.title) ? " thunder-racers" : "");
 
   el.innerHTML = `
     <div class="painting-img">
