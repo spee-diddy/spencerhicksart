@@ -197,6 +197,27 @@ gtag('config', 'G-TM3K96P6T1');
     #collages .painting.is-horizontal .painting-img {
       aspect-ratio: 3.5 / 2.5;
     }
+    
+/* Freeform collages: not part of the playing-card series — sized like paintings */
+    #collages .painting.freeform {
+      flex: 1 1 280px;
+      width: auto;
+      max-width: 400px;
+    }
+
+    #collages .painting.freeform .painting-img {
+      aspect-ratio: auto;
+      width: 100%;
+      height: auto;
+      background: rgba(0,0,0,0.03);
+    }
+
+    #collages .painting.freeform .painting-img img {
+      width: 100%;
+      height: auto;
+      object-fit: unset;
+      display: block;
+    }
 
     #collages .painting-img img,
     #collages .painting-img .img-front,
@@ -2137,17 +2158,22 @@ function buildCard(p, list, indexInList) {
   // For collages: detect each image's real orientation once it loads,
   // and mark the card as horizontal so CSS gives it a wider grid span
   // and swapped aspect ratio with genuinely equal area to a vertical card.
-  if (p.category === "collages") {
-    const img = el.querySelector("img.img-front") || el.querySelector("img");
-    const applyOrientation = () => {
-      if (img.naturalWidth && img.naturalHeight && img.naturalWidth > img.naturalHeight) {
-        el.classList.add("is-horizontal");
-      }
-    };
-    img.addEventListener("load", applyOrientation);
-    applyOrientation();
+    if (p.category === "collages") {
+    if (p.backImage) {
+      // Playing-card series: detect orientation for the fixed card ratio
+      const img = el.querySelector("img.img-front") || el.querySelector("img");
+      const applyOrientation = () => {
+        if (img.naturalWidth && img.naturalHeight && img.naturalWidth > img.naturalHeight) {
+          el.classList.add("is-horizontal");
+        }
+      };
+      img.addEventListener("load", applyOrientation);
+      applyOrientation();
+    } else {
+      // Not part of the card series — natural size, painting-style
+      el.classList.add("freeform");
+    }
   }
-
 const imgs = el.querySelectorAll("img");
 
 imgs.forEach(img => {
